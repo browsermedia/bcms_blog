@@ -1,0 +1,2 @@
+<%= f.cms_drop_down :post_id, BlogPost.all(:order => "name").map{|p| [p.name, p.id]} %>
+<%= f.cms_text_area :body %>

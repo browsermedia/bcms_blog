@@ -1,0 +1,14 @@
+<div class="post">
+  <h2>
+    <%= link_to h(blog_post.name), blog_post_path(blog_post.route_params) %>
+  </h2>
+  <p class="auth"><%= blog_post.published_at.to_s(:long) %></p>
+  <p class="meta">
+    Posted in <%= link_to h(blog_post.category_name), blog_posts_in_category_path(:category => blog_post.category_name) %>
+    <strong>|</strong>
+    Tags 
+    <%= blog_post.tags.map{|t| link_to(h(t.name), blog_posts_with_tag_path(:tag => t.name)) }.join(", ") %>
+    <strong>|</strong>
+    <%= link_to h(pluralize(blog_post.comments_count, "Comment")), "#{blog_post_path(blog_post.route_params)}#comments" %>
+  </p>
+</div>

@@ -1,0 +1,3 @@
+<% page_title @blog.name %>
+<h1><%=h page_title %></h1>
+<%= render :partial => "portlets/blog_post/blog_post", :collection => @blog_posts %>

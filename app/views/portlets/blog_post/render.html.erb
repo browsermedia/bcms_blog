@@ -1,0 +1,11 @@
+<% if @blog_post -%>
+  <% page_title @blog_post.name %>
+  <%= render :partial => "portlets/blog_post/blog_post", :object => @blog_post %>
+  <h2>Comments</h2>
+  <% for comment in @blog_post.comments %>
+    <p><%=h comment.body %></p>
+  <% end %>  
+<% else -%>
+  <b>Missing required parameter</b><br/>
+  This portlet expects a request parameter 'blog_post_id'. Be sure the calling page provides it.
+<% end -%>
