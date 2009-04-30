@@ -42,10 +42,19 @@ class BlogPost < ActiveRecord::Base
   end
   
   def route_params
-    {:year => published_at.strftime("%Y"), 
-      :month => published_at.strftime("%m"), 
-      :day => published_at.strftime("%d"), 
-      :slug => slug}
+    {:year => year, :month => month, :day => day, :slug => slug}
   end  
+  
+  def year
+    published_at.strftime("%Y")
+  end
+  
+  def month
+    published_at.strftime("%m")
+  end
+  
+  def day
+    published_at.strftime("%d")
+  end
   
 end
