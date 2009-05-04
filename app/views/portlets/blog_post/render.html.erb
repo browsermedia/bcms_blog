@@ -5,6 +5,31 @@
   <% for comment in @blog_post.comments %>
     <p><%=h comment.body %></p>
   <% end %>  
+  <div class="blog_comment_form">
+    <% form_for @blog_comment, :url => cms_create_blog_comment_path(@portlet) do |f| %>
+      <%= f.hidden_field :post_id %>
+      <%= f.error_messages %>
+      <p>
+        <%= f.label :author %>
+        <%= f.text_field :author %>
+      </p>
+      <p>
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+      </p>
+      <p>
+        <%= f.label :url %>
+        <%= f.text_field :url %>
+      </p>
+      <p>
+        <%= f.label :body %>
+        <%= f.text_area :body, :size => "50x3" %>
+      </p>
+      <p>
+        <%= submit_tag "Submit" %>
+      </p>
+    <% end %>
+  </div>  
 <% else -%>
   <b>Missing required parameter</b><br/>
   This portlet expects a request parameter 'blog_post_id'. Be sure the calling page provides it.
