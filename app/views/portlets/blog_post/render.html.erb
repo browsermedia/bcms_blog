@@ -6,7 +6,7 @@
     <p><%=h comment.body %></p>
   <% end %>  
   <div class="blog_comment_form">
-    <% form_for @blog_comment, :url => cms_create_blog_comment_path(@portlet) do |f| %>
+    <% form_for @blog_comment, :url => cms_handler_path(@portlet, "create_comment") do |f| %>
       <%= f.hidden_field :post_id %>
       <%= f.error_messages %>
       <p>

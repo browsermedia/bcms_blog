@@ -8,6 +8,7 @@ SPEC = Gem::Specification.new do |spec|
   spec.homepage = "http://www.browsercms.org" 
   spec.files += Dir["app/models/*"]
   spec.files += Dir["app/portlets/*"]
+  spec.files += Dir["app/controllers/cms/*"]  
   spec.files += Dir["app/views/cms/blog*/*"]
   spec.files += Dir["app/views/portlets/**/*"]
   spec.files += Dir["db/migrate/[0-9]*_create_blog*.rb"]
