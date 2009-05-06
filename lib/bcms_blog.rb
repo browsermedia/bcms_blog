@@ -1,0 +1,1 @@
+require 'bcms_blog/routes'

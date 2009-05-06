@@ -5,7 +5,7 @@
 # Make sure the secret is at least 30 characters and all random, 
 # no regular words or you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
-  :key         => '_browsercms_blog_module_session',
+  :key         => '_bcms_blog_session',
   :secret      => '42ebf92277b98591e53f666902de78de76483e2708df18e9c485af3092b9e70c54c8155d07e91cfa80c812e8e28296bcee3702b8bb11edcaea422b3b4fcff5a3'
 }
 
