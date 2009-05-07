@@ -7,8 +7,10 @@
     <%= blog_post.body %>
   </p>
   <p class="meta">
-    Posted in <%= link_to h(blog_post.category_name), blog_posts_in_category_path(:category => blog_post.category_name) %>
-    <strong>|</strong>
+    <% unless blog_post.category_id.blank? %>
+      Posted in <%= link_to h(blog_post.category_name), blog_posts_in_category_path(:category => blog_post.category_name) %>
+      <strong>|</strong>
+    <% end %>
     Tags 
     <span class="tags">
       <%= blog_post.tags.map{|t| link_to(h(t.name), blog_posts_with_tag_path(:tag => t.name)) }.join(", ") %>
