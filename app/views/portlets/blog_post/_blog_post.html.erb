@@ -1,8 +1,14 @@
 <div id="blog_post_<%= blog_post.id %>" class="blog_post">
   <h2>
-    <%= link_to h(blog_post.name), blog_post_path(blog_post.route_params) %>
+    <% if blog_post.published_at %>
+        <%= link_to h(blog_post.name), blog_post_path(blog_post.route_params) %>
+    <% else %>
+        <%=h blog_post.name %>
+    <% end %>
   </h2>
-  <p class="date"><%= blog_post.published_at.to_s(:long) %></p>
+  <% if blog_post.published_at %>
+    <p class="date"><%= blog_post.published_at.to_s(:long) %></p>
+  <% end %>
   <p class="body">
     <%= blog_post.body %>
   </p>
@@ -16,6 +22,8 @@
       <%= blog_post.tags.map{|t| link_to(h(t.name), blog_posts_with_tag_path(:tag => t.name)) }.join(", ") %>
     </span>
     <strong>|</strong>
-    <%= link_to h(pluralize(blog_post.comments_count, "Comment")), "#{blog_post_path(blog_post.route_params)}#comments" %>
+    <% if blog_post.published_at %>
+      <%= link_to h(pluralize(blog_post.comments_count, "Comment")), "#{blog_post_path(blog_post.route_params)}#comments" %>
+    <% end %>
   </p>
 </div>

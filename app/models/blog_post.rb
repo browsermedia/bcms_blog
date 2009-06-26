@@ -1,5 +1,8 @@
 class BlogPost < ActiveRecord::Base
   acts_as_content_block :taggable => true
+  
+  before_save :set_published_at
+  
   belongs_to :blog
   belongs_to_category
   belongs_to :author, :class_name => "User"
@@ -24,6 +27,12 @@ class BlogPost < ActiveRecord::Base
       
   named_scope :with_slug, lambda{|slug| {:conditions => ["blog_posts.slug = ?",slug]}}  
   
+  def set_published_at
+    if !published_at && publish_on_save
+      self.published_at = Time.now
+    end
+  end
+  
   def self.default_order
     "created_at desc"
   end
@@ -46,15 +55,15 @@ class BlogPost < ActiveRecord::Base
   end  
   
   def year
-    published_at.strftime("%Y")
+    published_at.strftime("%Y") unless published_at.blank?
   end
   
   def month
-    published_at.strftime("%m")
+    published_at.strftime("%m") unless published_at.blank?
   end
   
   def day
-    published_at.strftime("%d")
+    published_at.strftime("%d") unless published_at.blank?
   end
   
 end
