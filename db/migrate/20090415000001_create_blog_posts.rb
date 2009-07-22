@@ -14,34 +14,46 @@ class CreateBlogPosts < ActiveRecord::Migration
     CategoryType.create!(:name => "Blog Post")
     ContentType.create!(:name => "BlogPost", :group_name => "Blog")
     
-    blog_post_page = Page.create!(
-      :name => "Blog Post", 
-      :path => "/blog/post", 
-      :section => Section.root.first,
-      :template_file_name => "default.html.erb")
+    blog_section = Section.new(:name => "Blog", :path => "/blog", :parent_id => 1, :hidden => true)
+    blog_section.groups << Group.find_by_code("cms-admin")
+    blog_section.groups << Group.find_by_code("guest")
+    blog_section.groups << Group.find_by_code("content-editor")
+    blog_section.save!
+    
+    create_blog_page("Blog Post",           blog_section, "/articles/:year/:month/:day/:slug")
+    create_blog_page("Blog Posts In Day",   blog_section, "/articles/:year/:month/:day")
+    create_blog_page("Blog Posts In Month", blog_section, "/articles/:year/:month")
+    create_blog_page("Blog Posts In Year",  blog_section, "/articles/:year")
     
     PagePartial.create!(
       :name => "_blog_post",
       :format => "html",
       :handler => "erb",
       :body => File.read(RAILS_ROOT + "/app/views/portlets/blog_post/_blog_post.html.erb"))
+  end
+  
+  def self.create_blog_page(name, section, path)
+    page = Page.create!(
+      :name => name, 
+      :path => name.gsub(" ", "").underscore.downcase.sub("blog_", "/blog/"),
+      :section => section,
+      :template_file_name => "default.html.erb",
+      :hidden => true)
     
-    BlogPostPortlet.create!(
-      :name => "Blog Post Portlet",
-      :template => BlogPostPortlet.default_template,
-      :connect_to_page_id => blog_post_page.id,
+    route = page.page_routes.build(:name => name, :pattern => path, :code => "")
+    route.add_condition(:method, "get")
+    route.add_requirement(:year, '\d{4,}') if path.include?(":year")
+    route.add_requirement(:month, '\d{2,}') if path.include?(":month")
+    route.add_requirement(:day, '\d{2,}') if path.include?(":day")
+    route.save!
+    
+    portlet_class = "#{name.gsub(" ", "").classify}Portlet".constantize
+    portlet_class.create!(
+      :name => "#{name} Portlet",
+      :template => portlet_class.default_template,
+      :connect_to_page_id => page.id,
       :connect_to_container => "main",
       :publish_on_save => true)
-      
-    route = blog_post_page.page_routes.build(
-      :name => "Blog Post",
-      :pattern => "/articles/:year/:month/:day/:slug",
-      :code => "@blog_post = BlogPost.published_on(params).with_slug(params[:slug]).first")
-    route.add_condition(:method, "get")
-    route.add_requirement(:year, '\d{4,}')
-    route.add_requirement(:month, '\d{2,}')
-    route.add_requirement(:day, '\d{2,}')
-    route.save!
   end
 
   def self.down

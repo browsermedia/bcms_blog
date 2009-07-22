@@ -11,9 +11,8 @@ unless $database_initialized
   `rake db:test:purge`
   `rake db:migrate`
 
-  # Publish the blog and blog post pages as they are drafts after migrating
-  Page.find_by_path("/").publish!
-  Page.find_by_path("/blog/post").publish!
+  # Publish all pages, as they are drafts after migrating
+  Page.find(:all).each(&:publish!)
 end
 
 class ActiveSupport::TestCase
@@ -72,6 +71,7 @@ class ActiveSupport::TestCase
       :category => @general,
       :summary => "This is the first post",
       :body => "Yadda Yadda Yadda",
+      :published_at => Time.utc(2008, 7, 5, 6),
       :publish_on_save => true)
 
     @foo_post_1 = BlogPost.create!(
@@ -81,6 +81,7 @@ class ActiveSupport::TestCase
       :tag_list => "foo stuff",
       :summary => "This is the first foo post",
       :body => "Foo 1 Foo 1 Foo 1",
+      :published_at => Time.utc(2008, 7, 5, 12),
       :publish_on_save => true)
 
     @foo_post_2 = BlogPost.create!(
@@ -90,6 +91,7 @@ class ActiveSupport::TestCase
       :tag_list => "foo",
       :summary => "This is the second foo post",
       :body => "Foo 2 Foo 2 Foo 2",
+      :published_at => Time.utc(2008, 7, 21),
       :publish_on_save => true)
 
     @bar_post_1 = BlogPost.create!(
@@ -99,6 +101,7 @@ class ActiveSupport::TestCase
       :tag_list => "bar things",
       :summary => "This is the first bar post",
       :body => "Bar 1 Bar 1 Bar 1",
+      :published_at => Time.utc(2008, 9, 2),
       :publish_on_save => true)
 
     @bar_post_2 = BlogPost.create!(
@@ -108,6 +111,7 @@ class ActiveSupport::TestCase
       :tag_list => "bar",
       :summary => "This is the second bar post",
       :body => "Bar 2 Bar 2 Bar 2",
+      :published_at => Time.utc(2009, 3, 18),
       :publish_on_save => true)
   end
   

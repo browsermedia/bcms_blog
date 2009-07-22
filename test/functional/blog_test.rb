@@ -12,7 +12,7 @@ class BlogTest < ActionController::TestCase
   end
   
   def test_list_of_blog_posts
-    get :show, :paths => ["/"]
+    get :show
     #log @response.body
     assert_response :success
     assert_select ".blog_post", 5
@@ -33,16 +33,37 @@ class BlogTest < ActionController::TestCase
   end
   
   def test_list_of_tagged_blog_posts
-    get :show, :paths => ["/"], :category => "General"
+    get :show, :category => "General"
     #log @response.body
     assert_response :success
     assert_select ".blog_post", 3
   end
   
   def test_list_of_categorized_blog_posts
-    get :show, :paths => ["/"], :tag => "foo"
+    get :show, :tag => "foo"
     #log @response.body
     assert_response :success
     assert_select ".blog_post", 2
+  end
+  
+  def test_list_of_blog_posts_in_day
+    get :show, :path => ["blog", "posts_in_day"],
+        :year => 2008, :month => 7, :day => 5
+    assert_response :success
+    assert_select ".blog_post", 2
+  end
+  
+  def test_list_of_blog_posts_in_month
+    get :show, :path => ["blog", "posts_in_month"],
+        :year => 2008, :month => 7
+    assert_response :success
+    assert_select ".blog_post", 3
+  end
+  
+  def test_list_of_blog_posts_in_year
+    get :show, :path => ["blog", "posts_in_year"],
+        :year => 2008
+    assert_response :success
+    assert_select ".blog_post", 4
   end
 end

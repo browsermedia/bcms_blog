@@ -10,22 +10,18 @@ class BlogPost < ActiveRecord::Base
   
   before_validation :set_slug
   validates_presence_of :name, :slug
-
-  named_scope :published_on, lambda {|date|
-    d = if date.kind_of?(Hash)
-      Date.new(date[:year].to_i, date[:month].to_i, date[:day].to_i)
-    else
-      date
-    end
-    
-    {:conditions => [
-      "blog_posts.published_at >= ? AND blog_posts.published_at < ?", 
-      d.beginning_of_day, 
-      (d.beginning_of_day + 1.day)
-    ]}
+  
+  named_scope :published_between, lambda { |start, finish|
+    { :conditions => [
+         "blog_posts.published_at >= ? AND blog_posts.published_at < ?", 
+         start, finish ] }
   }
-      
+  
   named_scope :with_slug, lambda{|slug| {:conditions => ["blog_posts.slug = ?",slug]}}  
+  
+  INCORRECT_PARAMETERS = "Incorrect parameters. This is probably because you are trying to view the " +
+                         "portlet through the CMS interface, and so we have no way of knowing what " +
+                         "post(s) to show"
   
   def set_published_at
     if !published_at && publish_on_save
@@ -75,5 +71,4 @@ class BlogPost < ActiveRecord::Base
   def day
     published_at.strftime("%d") unless published_at.blank?
   end
-  
 end

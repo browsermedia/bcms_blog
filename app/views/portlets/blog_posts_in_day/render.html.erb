@@ -1,0 +1,8 @@
+<h2>Blog posts from <%= @date.to_s(:long_ordinal) %></h2>
+
+<% unless @blog_posts.empty? %>
+  <%= render :partial => "partials/blog_post", :collection => @blog_posts %>
+<% else %>
+  <p>Sorry, none found.</p>
+<% end %>
+

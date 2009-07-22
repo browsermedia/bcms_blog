@@ -5,7 +5,6 @@ class BlogPostTest < ActionController::TestCase
   
   def setup
     create_baseline_data
-    @blog_post_route = PageRoute.find_by_name("Blog Post")
   end
   
   def teardown
@@ -13,7 +12,7 @@ class BlogPostTest < ActionController::TestCase
   end
 
   def test_show_post
-    get :show_page_route, :_page_route_id => @blog_post_route.id.to_s,
+    get :show, :path => ["blog", "post"],
       :year => @first_post.year,
       :month => @first_post.month,
       :day => @first_post.day,
