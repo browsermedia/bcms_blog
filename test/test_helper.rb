@@ -3,14 +3,18 @@ ENV['BACKTRACE'] = "YES PLEASE"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
-# Empty the database and load in the default seed data for browsercms
-# and the blog module
-`rake db:test:purge`
-`rake db:migrate`
+unless $database_initialized
+  $database_initialized = true
+  
+  # Empty the database and load in the default seed data for browsercms
+  # and the blog module
+  `rake db:test:purge`
+  `rake db:migrate`
 
-# Publish the blog and blog post pages as they are drafts after migrating
-Page.find_by_path("/").publish!
-Page.find_by_path("/blog/post").publish!
+  # Publish the blog and blog post pages as they are drafts after migrating
+  Page.find_by_path("/").publish!
+  Page.find_by_path("/blog/post").publish!
+end
 
 class ActiveSupport::TestCase
   require File.dirname(__FILE__) + '/test_logging'

@@ -33,6 +33,16 @@ class BlogPost < ActiveRecord::Base
     end
   end
   
+  # This is necessary because, oddly, the publish! method in the Publishing behaviour sends an update
+  # query directly to the database, bypassing callbacks, so published_at does not get set by our
+  # set_published_at callback.
+  def after_publish
+    if published_at.nil?
+      self.published_at = Time.now
+      self.save!
+    end
+  end
+  
   def self.default_order
     "created_at desc"
   end
