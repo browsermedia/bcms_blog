@@ -5,13 +5,13 @@ class BlogPostTest < ActionController::TestCase
   
   def setup
     create_baseline_data
-    @blog_post_portlet = BlogPostPortlet.create!(:name => "Blog Post Portlet",
-      :template => BlogPostPortlet.default_template,
-      :connect_to_page_id => @blog_post_page.id,
-      :connect_to_container => "main",
-      :publish_on_save => true)
+    @blog_post_route = PageRoute.find_by_name("Blog Post")
   end
   
+  def teardown
+    destroy_baseline_data
+  end
+
   def test_show_post
     get :show_page_route, :_page_route_id => @blog_post_route.id.to_s,
       :year => @first_post.year,

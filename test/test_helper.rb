@@ -3,6 +3,15 @@ ENV['BACKTRACE'] = "YES PLEASE"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+# Empty the database and load in the default seed data for browsercms
+# and the blog module
+`rake db:test:purge`
+`rake db:migrate`
+
+# Publish the blog and blog post pages as they are drafts after migrating
+Page.find_by_path("/").publish!
+Page.find_by_path("/blog/post").publish!
+
 class ActiveSupport::TestCase
   require File.dirname(__FILE__) + '/test_logging'
   include TestLogging  
@@ -39,99 +48,68 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   def create_baseline_data
-      @section = Section.create!(:name => "My Site", :path => "/")
-      Group.create!(:name => "Guest", :code => "guest", :sections => [@section])
-      @page_template = PageTemplate.create!(:name => "test", :format => "html", :handler => "erb", :body => %q{<html>
-      <head>
-        <title>
-          <%= page_title %>
-        </title>
-        <%= yield :html_head %>
-      </head>
-      <body>
-        <%= cms_toolbar %>
-        <%= container :main %>
-      </body>
-    </html>})
+    # Find the seed data items
+    @blog = Blog.find_by_name("My Blog")
+    @blog_page = Page.find_by_path("/")
+    @blog_post_page = Page.find_by_path("/blog/post")
+    @category_type = CategoryType.find_by_name("Blog Post")
+    
+    # For some reason this is necessary otherwise the relevant page routes aren't loaded when
+    # the tests are run via "rake" (as opposed to running them directly). I don't know exactly
+    # why this is the case.
+    ActionController::Routing::Routes.load!
 
-      @blog_page = Page.create!(:name => "My Blog Page", :section => @section, :path => "/", :template_file_name => "test.html.erb")
-      @blog_post_page = Page.create!(:name => "Blog Post Page", :section => @section, :path => "/blog/post", :template_file_name => "test.html.erb")
+    @stuff = Category.create!(:name => "Stuff", :category_type => @category_type)
+    @general = Category.create!(:name => "General", :category_type => @category_type)
+    
+    @first_post = BlogPost.create!(
+      :name => "First Post",
+      :blog => @blog,
+      :category => @general,
+      :summary => "This is the first post",
+      :body => "Yadda Yadda Yadda",
+      :publish_on_save => true)
 
-      @blog_posts_with_tag_route = @blog_page.page_routes.create(
-        :name => "Blog Posts With Tag",
-        :pattern => "/articles/tag/:tag")
+    @foo_post_1 = BlogPost.create!(
+      :name => "Foo #1",
+      :blog => @blog,
+      :category => @stuff,
+      :tag_list => "foo stuff",
+      :summary => "This is the first foo post",
+      :body => "Foo 1 Foo 1 Foo 1",
+      :publish_on_save => true)
 
-      @blog_posts_in_category_route = @blog_page.page_routes.create(
-        :name => "Blog Posts In Category", 
-        :pattern => "/articles/category/:category")    
+    @foo_post_2 = BlogPost.create!(
+      :name => "Foo #2",
+      :blog => @blog,
+      :category => @general,
+      :tag_list => "foo",
+      :summary => "This is the second foo post",
+      :body => "Foo 2 Foo 2 Foo 2",
+      :publish_on_save => true)
 
-      @blog_post_route = @blog_post_page.page_routes.build(
-        :name => "Blog Post",
-        :pattern => "/articles/:year/:month/:day/:slug",
-        :code => "@blog_post = BlogPost.published_on(params).with_slug(params[:slug]).first")
-      @blog_post_route.add_condition(:method, "get")
-      @blog_post_route.add_requirement(:year, '\d{4,}')
-      @blog_post_route.add_requirement(:month, '\d{2,}')
-      @blog_post_route.add_requirement(:day, '\d{2,}')
-      @blog_post_route.save!    
+    @bar_post_1 = BlogPost.create!(
+      :name => "Bar #1",
+      :blog => @blog,
+      :category => @stuff,
+      :tag_list => "bar things",
+      :summary => "This is the first bar post",
+      :body => "Bar 1 Bar 1 Bar 1",
+      :publish_on_save => true)
 
-      @blog_page.publish!
-      @blog_post_page.publish!
-
-      @category_type = CategoryType.create!(:name => "Blog Post")
-      @stuff = Category.create!(:name => "Stuff", :category_type => @category_type)
-      @general = Category.create!(:name => "General", :category_type => @category_type)
-
-      @blog = Blog.create!(
-        :name => "My Blog",
-        :template => Blog.default_template,
-        :connect_to_page_id => @blog_page.id,
-        :connect_to_container => "main",
-        :publish_on_save => true)
-
-      @first_post = BlogPost.create!(
-        :name => "First Post",
-        :blog => @blog,
-        :category => @general,
-        :summary => "This is the first post",
-        :body => "Yadda Yadda Yadda",
-        :publish_on_save => true)
-
-      @foo_post_1 = BlogPost.create!(
-        :name => "Foo #1",
-        :blog => @blog,
-        :category => @stuff,
-        :tag_list => "foo stuff",
-        :summary => "This is the first foo post",
-        :body => "Foo 1 Foo 1 Foo 1",
-        :publish_on_save => true)
-
-      @foo_post_2 = BlogPost.create!(
-        :name => "Foo #2",
-        :blog => @blog,
-        :category => @general,
-        :tag_list => "foo",
-        :summary => "This is the second foo post",
-        :body => "Foo 2 Foo 2 Foo 2",
-        :publish_on_save => true)
-
-      @bar_post_1 = BlogPost.create!(
-        :name => "Bar #1",
-        :blog => @blog,
-        :category => @stuff,
-        :tag_list => "bar things",
-        :summary => "This is the first bar post",
-        :body => "Bar 1 Bar 1 Bar 1",
-        :publish_on_save => true)
-
-      @bar_post_2 = BlogPost.create!(
-        :name => "Bar #2",
-        :blog => @blog,
-        :category => @general,
-        :tag_list => "bar",
-        :summary => "This is the second bar post",
-        :body => "Bar 2 Bar 2 Bar 2",
-        :publish_on_save => true)
+    @bar_post_2 = BlogPost.create!(
+      :name => "Bar #2",
+      :blog => @blog,
+      :category => @general,
+      :tag_list => "bar",
+      :summary => "This is the second bar post",
+      :body => "Bar 2 Bar 2 Bar 2",
+      :publish_on_save => true)
+  end
+  
+  def destroy_baseline_data
+    Category.destroy_all
+    BlogPost.destroy_all
   end
   
 end

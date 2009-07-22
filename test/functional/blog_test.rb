@@ -7,6 +7,10 @@ class BlogTest < ActionController::TestCase
     create_baseline_data
   end
   
+  def teardown
+    destroy_baseline_data
+  end
+  
   def test_list_of_blog_posts
     get :show, :paths => ["/"]
     #log @response.body
@@ -41,5 +45,4 @@ class BlogTest < ActionController::TestCase
     assert_response :success
     assert_select ".blog_post", 2
   end
-  
 end
