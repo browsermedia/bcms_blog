@@ -19,7 +19,13 @@ class CreateBlogPosts < ActiveRecord::Migration
       :path => "/blog/post", 
       :section => Section.root.first,
       :template_file_name => "default.html.erb")
-      
+    
+    PagePartial.create!(
+      :name => "_blog_post",
+      :format => "html",
+      :handler => "erb",
+      :body => File.read(RAILS_ROOT + "/app/views/portlets/blog_post/_blog_post.html.erb"))
+    
     BlogPostPortlet.create!(
       :name => "Blog Post Portlet",
       :template => BlogPostPortlet.default_template,
@@ -35,10 +41,7 @@ class CreateBlogPosts < ActiveRecord::Migration
     route.add_requirement(:year, '\d{4,}')
     route.add_requirement(:month, '\d{2,}')
     route.add_requirement(:day, '\d{2,}')
-    route.save!    
-    
-    
-      
+    route.save!
   end
 
   def self.down

@@ -1,6 +1,6 @@
 <% if @blog_post -%>
   <% page_title @blog_post.name %>
-  <%= render :partial => "portlets/blog_post/blog_post", :object => @blog_post %>
+  <%= render :partial => "partials/blog_post", :object => @blog_post %>
   <h2>Comments</h2>
   <% for comment in @blog_post.comments %>
     <p><%=h comment.body %></p>
