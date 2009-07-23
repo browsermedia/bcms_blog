@@ -10,16 +10,14 @@ class BlogPostPortlet < Portlet
       else
         scope = BlogPost
       end
-      @blog_post = scope.with_slug(params[:slug]).first
+      @blog_post = scope.find_by_slug!(params[:slug])
     else
       raise BlogPost::INCORRECT_PARAMETERS
     end
     
-    if @blog_post
-      pmap = flash[instance_name] || params
-      @blog_comment = @blog_post.comments.build pmap[:blog_comment]
-      @blog_comment.errors.add_from_hash flash["#{instance_name}_errors"]
-    end
+    pmap = flash[instance_name] || params
+    @blog_comment = @blog_post.comments.build pmap[:blog_comment]
+    @blog_comment.errors.add_from_hash flash["#{instance_name}_errors"]
   end
   
   def create_comment

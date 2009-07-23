@@ -30,5 +30,12 @@ class BlogPostTest < ActionController::TestCase
     end
     
   end
+
+  def test_non_existent_slug_should_return_404
+    get :show, :path => ["blog", "post"],
+      :year => 2005, :month => 6, :day => 14,
+      :slug => "not-here"
+    assert_response :not_found
+  end
   
 end

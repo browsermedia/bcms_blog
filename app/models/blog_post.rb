@@ -17,8 +17,6 @@ class BlogPost < ActiveRecord::Base
          start, finish ] }
   }
   
-  named_scope :with_slug, lambda{|slug| {:conditions => ["blog_posts.slug = ?",slug]}}  
-  
   INCORRECT_PARAMETERS = "Incorrect parameters. This is probably because you are trying to view the " +
                          "portlet through the CMS interface, and so we have no way of knowing what " +
                          "post(s) to show"

@@ -1,36 +1,31 @@
-<% if @blog_post -%>
-  <% page_title @blog_post.name %>
-  <%= render :partial => "partials/blog_post", :object => @blog_post %>
-  <h2>Comments</h2>
-  <% for comment in @blog_post.comments %>
-    <p><%=h comment.body %></p>
-  <% end %>  
-  <div class="blog_comment_form">
-    <% form_for @blog_comment, :url => cms_handler_path(@portlet, "create_comment") do |f| %>
-      <%= f.hidden_field :post_id %>
-      <%= f.error_messages %>
-      <p>
-        <%= f.label :author %>
-        <%= f.text_field :author %>
-      </p>
-      <p>
-        <%= f.label :email %>
-        <%= f.text_field :email %>
-      </p>
-      <p>
-        <%= f.label :url %>
-        <%= f.text_field :url %>
-      </p>
-      <p>
-        <%= f.label :body %>
-        <%= f.text_area :body, :size => "50x3" %>
-      </p>
-      <p>
-        <%= submit_tag "Submit" %>
-      </p>
-    <% end %>
-  </div>  
-<% else -%>
-  <h2>Not found</h2>
-  <p>Sorry, the blog post couldn't be found.</p>
-<% end -%>
+<% page_title @blog_post.name %>
+<%= render :partial => "partials/blog_post", :object => @blog_post %>
+<h2>Comments</h2>
+<% for comment in @blog_post.comments %>
+  <p><%=h comment.body %></p>
+<% end %>  
+<div class="blog_comment_form">
+  <% form_for @blog_comment, :url => cms_handler_path(@portlet, "create_comment") do |f| %>
+    <%= f.hidden_field :post_id %>
+    <%= f.error_messages %>
+    <p>
+      <%= f.label :author %>
+      <%= f.text_field :author %>
+    </p>
+    <p>
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+    </p>
+    <p>
+      <%= f.label :url %>
+      <%= f.text_field :url %>
+    </p>
+    <p>
+      <%= f.label :body %>
+      <%= f.text_area :body, :size => "50x3" %>
+    </p>
+    <p>
+      <%= submit_tag "Submit" %>
+    </p>
+  <% end %>
+</div>
