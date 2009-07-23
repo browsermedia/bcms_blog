@@ -15,9 +15,11 @@ class BlogPostPortlet < Portlet
       raise BlogPost::INCORRECT_PARAMETERS
     end
     
-    pmap = flash[instance_name] || params
-    @blog_comment = @blog_post.comments.build pmap[:blog_comment]
-    @blog_comment.errors.add_from_hash flash["#{instance_name}_errors"]
+    if @blog_post
+      pmap = flash[instance_name] || params
+      @blog_comment = @blog_post.comments.build pmap[:blog_comment]
+      @blog_comment.errors.add_from_hash flash["#{instance_name}_errors"]
+    end
   end
   
   def create_comment
