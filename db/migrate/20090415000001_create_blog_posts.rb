@@ -82,23 +82,25 @@ HTML
   end
 
   def self.down
-    PagePartial.find_by_name("_blog_post").destroy
+    PagePartial.destroy_all(:name => "_blog_post")
     
-    delete_blog_page("Blog Posts In Year")
-    delete_blog_page("Blog Posts In Month")
-    delete_blog_page("Blog Posts In Day")
-    delete_blog_page("Blog Post")
+    destroy_blog_page("Blog Posts In Year")
+    destroy_blog_page("Blog Posts In Month")
+    destroy_blog_page("Blog Posts In Day")
+    destroy_blog_page("Blog Post")
     
-    ContentType.delete_all(:name => 'BlogPost')
-    CategoryType.delete_all(:name => "Blog Post")
+    Section.destroy_all(:name => "Blog")
+    
+    ContentType.destroy_all(:name => 'BlogPost')
+    CategoryType.destroy_all(:name => "Blog Post")
     
     drop_table :blog_post_versions
     drop_table :blog_posts
   end
   
-  def self.delete_blog_page(name)
-    Portlet.delete_all(:name => "#{name} Portlet")
-    PageRoute.delete_all(:name => name)
-    Page.delete_all(:name => name)
+  def self.destroy_blog_page(name)
+    Portlet.destroy_all(:name => "#{name} Portlet")
+    PageRoute.destroy_all(:name => name)
+    Page.destroy_all(:name => name)
   end
 end
