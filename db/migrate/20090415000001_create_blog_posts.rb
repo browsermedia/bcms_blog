@@ -75,6 +75,7 @@ HTML
     portlet_class = "#{name.gsub(" ", "").classify}Portlet".constantize
     portlet_class.create!(
       :name => "#{name} Portlet",
+      :blog_id => Blog.find_by_name("My Blog").id,
       :template => portlet_class.default_template,
       :connect_to_page_id => page.id,
       :connect_to_container => "main",
