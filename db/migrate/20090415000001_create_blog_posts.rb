@@ -57,9 +57,23 @@ class CreateBlogPosts < ActiveRecord::Migration
   end
 
   def self.down
-    ContentType.delete_all(['name = ?', 'BlogPost'])
-    CategoryType.all(:conditions => ['name = ?', 'Blog Post']).each(&:destroy)
+    PagePartial.find_by_name("_blog_post").destroy
+    
+    delete_blog_page("Blog Posts In Year")
+    delete_blog_page("Blog Posts In Month")
+    delete_blog_page("Blog Posts In Day")
+    delete_blog_page("Blog Post")
+    
+    ContentType.delete_all(:name => 'BlogPost')
+    CategoryType.delete_all(:name => "Blog Post")
+    
     drop_table :blog_post_versions
     drop_table :blog_posts
+  end
+  
+  def self.delete_blog_page(name)
+    Portlet.delete_all(:name => "#{name} Portlet")
+    PageRoute.delete_all(:name => name)
+    Page.delete_all(:name => name)
   end
 end

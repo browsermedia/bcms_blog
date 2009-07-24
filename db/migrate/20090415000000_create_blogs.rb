@@ -26,7 +26,8 @@ class CreateBlogs < ActiveRecord::Migration
   end
 
   def self.down
-    ContentType.delete_all(['name = ?', 'Blog'])
+    PageRoute.delete_all(:pattern => ["/articles/tag/:tag", "/articles/category/:category"])
+    ContentType.delete_all(:name => "Blog")
     drop_table :blogs
   end
 end
