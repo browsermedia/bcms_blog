@@ -29,7 +29,32 @@ class CreateBlogPosts < ActiveRecord::Migration
       :name => "_blog_post",
       :format => "html",
       :handler => "erb",
-      :body => File.read(RAILS_ROOT + "/app/views/portlets/blog_post/_blog_post.html.erb"))
+      :body => <<'HTML'
+<div id="blog_post_<%= blog_post.id %>" class="blog_post">
+  <h2><%= link_to h(blog_post.name), blog_post_path(blog_post.route_params) %></h2>
+  
+  <p class="date"><%= blog_post.published_at.to_s(:long) %></p>
+  
+  <p class="body">
+    <%= blog_post.body %>
+  </p>
+  
+  <p class="meta">
+    <% unless blog_post.category_id.blank? %>
+      Posted in <%= link_to h(blog_post.category_name), blog_posts_in_category_path(:category => blog_post.category_name) %>
+      <strong>|</strong>
+    <% end %>
+    Tags 
+    <span class="tags">
+      <%= blog_post.tags.map{|t| link_to(h(t.name), blog_posts_with_tag_path(:tag => t.name)) }.join(", ") %>
+    </span>
+    <strong>|</strong>
+    
+    <%= link_to h(pluralize(blog_post.comments_count, "Comment")), "#{blog_post_path(blog_post.route_params)}#comments" %>
+  </p>
+</div>
+HTML
+)
   end
   
   def self.create_blog_page(name, section, path)
