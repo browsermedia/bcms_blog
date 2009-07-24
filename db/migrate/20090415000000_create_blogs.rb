@@ -28,7 +28,7 @@ class CreateBlogs < ActiveRecord::Migration
   def self.down
     PageRoute.destroy_all(:pattern => ["/articles/tag/:tag", "/articles/category/:category"])
     ContentType.destroy_all(:name => "Blog")
-    Blog.destroy_all
+    Connector.destroy_all(:connectable_type => "Blog")
     drop_table :blog_versions
     drop_table :blogs
   end
