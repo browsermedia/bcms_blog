@@ -2,6 +2,9 @@ class Blog < ActiveRecord::Base
   acts_as_content_block
   has_many :posts, :class_name => "BlogPost"
   
+  has_many :blog_group_memberships
+  has_many :groups, :through => :blog_group_memberships
+  
   validates_presence_of :name
   validates_uniqueness_of :name
   
