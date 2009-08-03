@@ -8,6 +8,10 @@ class Blog < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   
+  named_scope :editable_by, lambda { |user|
+    { :include => :groups, :conditions => ["groups.id IN (?)", user.group_ids.join(",")] }
+  }
+  
   def self.default_template
     template_file = ActionController::Base.view_paths.map do |vp| 
       path = vp.to_s.first == "/" ? vp.to_s : File.join(Rails.root, vp.to_s)
