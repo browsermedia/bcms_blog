@@ -1,0 +1,9 @@
+<% content_for(:html_head) do %>
+<%= stylesheet_link_tag "cms/content_library" %>
+<% end %>
+<% page_title "Content Library / List #{content_type.display_name_plural}" %>
+<% @toolbar_title = "List #{content_type.display_name_plural}" %>
+
+<div class="roundedcorners">
+  <p>Sorry, you don't have the permissions to write blog posts.</p>
+</div>

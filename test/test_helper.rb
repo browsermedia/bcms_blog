@@ -120,4 +120,19 @@ class ActiveSupport::TestCase
     BlogPost.destroy_all
   end
   
+  def create_non_admin_user
+    @group = Factory(:group, :name => "Test", :group_type => Factory(:group_type, :name => "CMS User", :cms_access => true))
+    @group.permissions << Permission.find_by_name("edit_content")
+    @group.permissions << Permission.find_by_name("publish_content")
+    @group.save!
+    
+    @user = Factory(:user)
+    @user.groups << @group
+    @user.save!
+  end
+  
+  def login_as(user)
+    @request.session[:user_id] = user ? user.id : nil
+  end
+  
 end
