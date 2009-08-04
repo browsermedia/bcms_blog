@@ -11,6 +11,11 @@ class Cms::BlogPostsController < Cms::ContentBlockController
     ensure_blog_editable
   end
   
+  def load_blocks
+    super
+    @blocks.delete_if { |b| !b.editable_by?(current_user) }
+  end
+  
   private
     
     # If the current user is not able to edit any blog, just show them a page saying so

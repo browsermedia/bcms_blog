@@ -23,7 +23,7 @@ end
 
 Factory.define :blog_post do |b|
   b.sequence(:name) { |n| "BlogPost#{n}" }
-  b.blog Blog.find(:first)
+  b.blog { Factory.create(:blog) }
   b.body "Lorem ipsum"
 end
 

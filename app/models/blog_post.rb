@@ -21,6 +21,8 @@ class BlogPost < ActiveRecord::Base
                          "portlet through the CMS interface, and so we have no way of knowing what " +
                          "post(s) to show"
   
+  delegate :editable_by?, :to => :blog
+  
   def set_published_at
     if !published_at && publish_on_save
       self.published_at = Time.now

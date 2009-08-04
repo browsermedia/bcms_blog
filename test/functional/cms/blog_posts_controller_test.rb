@@ -23,7 +23,15 @@ class Cms::BlogPostsControllerTest < ActionController::TestCase
   
   def test_no_access_if_no_editable_blogs
     @blog = Factory.create(:blog)
-    post :index
+    get :index
     assert_template "no_access"
+  end
+  
+  def test_index_shouldnt_show_non_editable_posts
+    @editable = Factory.create(:blog, :groups => [@group])
+    @non_editable = Factory.create(:blog)
+    @blog_post = Factory.create(:blog_post, :name => "Non-editable", :blog => @non_editable)
+    get :index
+    assert !@response.body.include?("Non-editable")
   end
 end
