@@ -9,7 +9,11 @@ class Blog < ActiveRecord::Base
   validates_uniqueness_of :name
   
   named_scope :editable_by, lambda { |user|
-    { :include => :groups, :conditions => ["groups.id IN (?)", user.group_ids.join(",")] }
+    if user.able_to?(:administrate)
+      { }
+    else
+      { :include => :groups, :conditions => ["groups.id IN (?)", user.group_ids.join(",")] }
+    end
   }
   
   def self.default_template
@@ -40,6 +44,10 @@ class Blog < ActiveRecord::Base
   
   def self.default_order
     "name"
+  end
+  
+  def editable_by?(user)
+    user.able_to?(:administrate) || !(group_ids & user.group_ids).empty?
   end
   
 end

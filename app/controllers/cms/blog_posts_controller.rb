@@ -1,6 +1,15 @@
 class Cms::BlogPostsController < Cms::ContentBlockController
   before_filter :show_no_access_if_none_editable
-  before_filter :ensure_blogs_are_editable, :only => [:create, :update]
+  
+  def build_block
+    super
+    ensure_blog_editable
+  end
+  
+  def load_block
+    super
+    ensure_blog_editable
+  end
   
   private
     
@@ -11,12 +20,10 @@ class Cms::BlogPostsController < Cms::ContentBlockController
       end
     end
     
-    # If a post is being created for a blog, then we want to make sure that the current
-    # user is allowed to edit that blog
-    def ensure_blogs_are_editable
-      if params[:blog_post] && params[:blog_post][:blog_id] &&
-         Blog.editable_by(current_user).find_by_id(params[:blog_post][:blog_id]).nil?
-        raise Cms::Errors::AccessDenied
+    # Ensure the current user can actually edit the blog this blog post is associated with
+    def ensure_blog_editable
+      if @block.blog
+        raise Cms::Errors::AccessDenied unless @block.blog.editable_by?(current_user)
       end
     end
 end

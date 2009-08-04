@@ -6,10 +6,18 @@ class Cms::BlogPostsControllerTest < ActionController::TestCase
     login_as(@user)
   end
 
-  def test_access_denied_if_blog_not_user_editable
+  def test_access_denied_on_create_if_blog_not_user_editable
     @editable = Factory.create(:blog, :groups => [@group])
     @non_editable = Factory.create(:blog)
     post :create, :blog_post => { :blog_id => @non_editable.id }
+    assert @response.body.include?("AccessDenied")
+  end
+  
+  def test_access_denied_on_update_if_blog_not_user_editable
+    @editable = Factory.create(:blog, :groups => [@group])
+    @non_editable = Factory.create(:blog)
+    @blog_post = Factory.create(:blog_post, :blog => @non_editable)
+    put :update, :id => @blog_post, :blog_post => { :name => "Foo" }
     assert @response.body.include?("AccessDenied")
   end
   
