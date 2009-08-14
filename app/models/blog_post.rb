@@ -9,7 +9,7 @@ class BlogPost < ActiveRecord::Base
   has_many :comments, :class_name => "BlogComment", :foreign_key => "post_id"
   
   before_validation :set_slug
-  validates_presence_of :name, :slug, :blog_id
+  validates_presence_of :name, :slug, :blog_id, :author_id
   
   named_scope :published_between, lambda { |start, finish|
     { :conditions => [

@@ -25,6 +25,7 @@ Factory.define :blog_post do |b|
   b.sequence(:name) { |n| "BlogPost#{n}" }
   b.blog { Factory.create(:blog) }
   b.body "Lorem ipsum"
+  b.author { User.find(:first) }
 end
 
 end

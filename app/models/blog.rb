@@ -50,4 +50,8 @@ class Blog < ActiveRecord::Base
     user.able_to?(:administrate) || !(group_ids & user.group_ids).empty?
   end
   
+  def potential_authors
+    groups.map(&:users).flatten.uniq
+  end
+  
 end

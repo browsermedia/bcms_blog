@@ -34,4 +34,10 @@ class Cms::BlogPostsControllerTest < ActionController::TestCase
     get :index
     assert !@response.body.include?("Non-editable")
   end
+  
+  def test_create_sets_author
+    @blog = Factory.create(:blog, :groups => [@group])
+    post :create, :blog_post => { :blog_id => @blog.id }
+    assert_equal @user, assigns(:block).author
+  end
 end
