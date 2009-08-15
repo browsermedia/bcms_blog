@@ -24,7 +24,7 @@ end
 Factory.define :blog_post do |b|
   b.sequence(:name) { |n| "BlogPost#{n}" }
   b.blog { Factory.create(:blog) }
-  b.body "Lorem ipsum"
+  b.sequence(:body) { |n| "Lorem ipsum #{n}" }
   b.author { User.find(:first) }
 end
 

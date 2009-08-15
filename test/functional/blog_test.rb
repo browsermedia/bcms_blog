@@ -18,15 +18,15 @@ class BlogTest < ActionController::TestCase
     assert_select ".blog_post", 5
     
     assert_select "#blog_post_#{@first_post.id}" do
-      assert_select "h2 a", "First Post"
-      assert_select "p.body", "Yadda Yadda Yadda"
+      assert_select "h2 a", @first_post.name
+      assert_select "p.body", @first_post.body
       assert_select "p.meta a", "General"
       assert_select "p.meta a", "0 Comments"
     end
     
     assert_select "#blog_post_#{@foo_post_1.id}" do
-      assert_select "h2 a", "Foo #1"
-      assert_select "p.body", "Foo 1 Foo 1 Foo 1"
+      assert_select "h2 a", @foo_post_1.name
+      assert_select "p.body", @foo_post_1.body
       assert_select "p.meta .tags a", "foo"
       assert_select "p.meta .tags a", "stuff"
     end

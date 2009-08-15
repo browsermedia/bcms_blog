@@ -65,54 +65,20 @@ class ActiveSupport::TestCase
     @stuff = Category.create!(:name => "Stuff", :category_type => @category_type)
     @general = Category.create!(:name => "General", :category_type => @category_type)
     
-    @first_post = BlogPost.create!(
-      :name => "First Post",
-      :blog => @blog,
-      :category => @general,
-      :summary => "This is the first post",
-      :body => "Yadda Yadda Yadda",
-      :published_at => Time.utc(2008, 7, 5, 6),
-      :publish_on_save => true)
-
-    @foo_post_1 = BlogPost.create!(
-      :name => "Foo #1",
-      :blog => @blog,
-      :category => @stuff,
-      :tag_list => "foo stuff",
-      :summary => "This is the first foo post",
-      :body => "Foo 1 Foo 1 Foo 1",
-      :published_at => Time.utc(2008, 7, 5, 12),
-      :publish_on_save => true)
-
-    @foo_post_2 = BlogPost.create!(
-      :name => "Foo #2",
-      :blog => @blog,
-      :category => @general,
-      :tag_list => "foo",
-      :summary => "This is the second foo post",
-      :body => "Foo 2 Foo 2 Foo 2",
-      :published_at => Time.utc(2008, 7, 21),
-      :publish_on_save => true)
-
-    @bar_post_1 = BlogPost.create!(
-      :name => "Bar #1",
-      :blog => @blog,
-      :category => @stuff,
-      :tag_list => "bar things",
-      :summary => "This is the first bar post",
-      :body => "Bar 1 Bar 1 Bar 1",
-      :published_at => Time.utc(2008, 9, 2),
-      :publish_on_save => true)
-
-    @bar_post_2 = BlogPost.create!(
-      :name => "Bar #2",
-      :blog => @blog,
-      :category => @general,
-      :tag_list => "bar",
-      :summary => "This is the second bar post",
-      :body => "Bar 2 Bar 2 Bar 2",
-      :published_at => Time.utc(2009, 3, 18),
-      :publish_on_save => true)
+    @first_post = Factory(:blog_post, :blog => @blog, :category => @general,
+      :published_at => Time.utc(2008, 7, 5, 6), :publish_on_save => true)
+    
+    @foo_post_1 = Factory(:blog_post, :blog => @blog, :category => @stuff,
+      :published_at => Time.utc(2008, 7, 5, 12), :tag_list => "foo stuff", :publish_on_save => true)
+    
+    @foo_post_2 = Factory(:blog_post, :blog => @blog, :category => @general,
+      :published_at => Time.utc(2008, 7, 21), :publish_on_save => true)
+    
+    @bar_post_1 = Factory(:blog_post, :blog => @blog, :category => @stuff,
+      :published_at => Time.utc(2008, 9, 2), :tag_list => "foo stuff", :publish_on_save => true)
+    
+    @bar_post_2 = Factory(:blog_post, :blog => @blog, :category => @general,
+      :published_at => Time.utc(2009, 3, 18), :publish_on_save => true)
   end
   
   def destroy_baseline_data
