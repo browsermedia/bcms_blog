@@ -1,6 +1,6 @@
 class Blog < ActiveRecord::Base
   acts_as_content_block
-  has_many :posts, :class_name => "BlogPost", :conditions => { :published => true }
+  has_many :posts, :class_name => "BlogPost", :conditions => { :published => true }, :order => "published_at desc"
   
   has_many :blog_group_memberships
   has_many :groups, :through => :blog_group_memberships
