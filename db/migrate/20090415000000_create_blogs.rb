@@ -22,21 +22,17 @@ class CreateBlogs < ActiveRecord::Migration
       :connect_to_container => "main",
       :groups => [Group.find_by_code("cms-admin"), Group.find_by_code("content-editor")],
       :publish_on_save => true)
-      
-    blog_page.page_routes.create(
-      :name => "Blog Posts With Tag",
-      :pattern => "/articles/tag/:tag")
-      
-    blog_page.page_routes.create(
-      :name => "Blog Posts In Category", 
-      :pattern => "/articles/category/:category")
   end
 
   def self.down
     PageRoute.destroy_all(:pattern => ["/articles/tag/:tag", "/articles/category/:category"])
     ContentType.destroy_all(:name => "Blog")
     Connector.destroy_all(:connectable_type => "Blog")
+
     drop_table :blog_versions
     drop_table :blogs
+
+    drop_table :blog_group_membership_versions
+    drop_table :blog_group_memberships
   end
 end
