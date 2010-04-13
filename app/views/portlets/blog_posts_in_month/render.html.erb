@@ -1,0 +1,2 @@
+<h2>Blog posts from <%= Date::MONTHNAMES[@date.month] %> <%= @date.year %></h2>
+<%= render :partial => "partials/blog_post", :collection => @blog_posts %>

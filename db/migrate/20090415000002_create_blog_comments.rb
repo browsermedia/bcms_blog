@@ -12,7 +12,8 @@ class CreateBlogComments < ActiveRecord::Migration
   end
 
   def self.down
-    ContentType.delete_all(['name = ?', 'BlogComment'])
+    ContentType.destroy_all(:name => 'BlogComment')
+    drop_table :blog_comment_versions
     drop_table :blog_comments
   end
 end

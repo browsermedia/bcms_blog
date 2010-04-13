@@ -1,9 +1,20 @@
 class Blog < ActiveRecord::Base
   acts_as_content_block
-  has_many :posts, :class_name => "BlogPost"
+  has_many :posts, :class_name => "BlogPost", :conditions => { :published => true }, :order => "published_at desc"
+  
+  has_many :blog_group_memberships
+  has_many :groups, :through => :blog_group_memberships
   
   validates_presence_of :name
   validates_uniqueness_of :name
+  
+  named_scope :editable_by, lambda { |user|
+    if user.able_to?(:administrate)
+      { }
+    else
+      { :include => :groups, :conditions => ["groups.id IN (?)", user.group_ids.join(",")] }
+    end
+  }
   
   def self.default_template
     template_file = ActionController::Base.view_paths.map do |vp| 
@@ -33,6 +44,14 @@ class Blog < ActiveRecord::Base
   
   def self.default_order
     "name"
+  end
+  
+  def editable_by?(user)
+    user.able_to?(:administrate) || !(group_ids & user.group_ids).empty?
+  end
+  
+  def potential_authors
+    groups.map(&:users).flatten.uniq
   end
   
 end

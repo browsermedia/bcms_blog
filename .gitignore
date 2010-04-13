@@ -10,3 +10,4 @@ config/database.yml
 tmp/restart.txt
 public/cache
 .idea
+.specification

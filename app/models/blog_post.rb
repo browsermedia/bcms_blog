@@ -9,27 +9,33 @@ class BlogPost < ActiveRecord::Base
   has_many :comments, :class_name => "BlogComment", :foreign_key => "post_id"
   
   before_validation :set_slug
-  validates_presence_of :name, :slug
-
-  named_scope :published_on, lambda {|date|
-    d = if date.kind_of?(Hash)
-      Date.new(date[:year].to_i, date[:month].to_i, date[:day].to_i)
-    else
-      date
-    end
-    
-    {:conditions => [
-      "blog_posts.published_at >= ? AND blog_posts.published_at < ?", 
-      d.beginning_of_day, 
-      (d.beginning_of_day + 1.day)
-    ]}
+  validates_presence_of :name, :slug, :blog_id, :author_id
+  
+  named_scope :published_between, lambda { |start, finish|
+    { :conditions => [
+         "blog_posts.published_at >= ? AND blog_posts.published_at < ?", 
+         start, finish ] }
   }
-      
-  named_scope :with_slug, lambda{|slug| {:conditions => ["blog_posts.slug = ?",slug]}}  
+  
+  INCORRECT_PARAMETERS = "Incorrect parameters. This is probably because you are trying to view the " +
+                         "portlet through the CMS interface, and so we have no way of knowing what " +
+                         "post(s) to show"
+  
+  delegate :editable_by?, :to => :blog
   
   def set_published_at
     if !published_at && publish_on_save
       self.published_at = Time.now
+    end
+  end
+  
+  # This is necessary because, oddly, the publish! method in the Publishing behaviour sends an update
+  # query directly to the database, bypassing callbacks, so published_at does not get set by our
+  # set_published_at callback.
+  def after_publish
+    if published_at.nil?
+      self.published_at = Time.now
+      self.save!
     end
   end
   
@@ -65,5 +71,4 @@ class BlogPost < ActiveRecord::Base
   def day
     published_at.strftime("%d") unless published_at.blank?
   end
-  
 end

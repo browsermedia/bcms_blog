@@ -14,37 +14,94 @@ class CreateBlogPosts < ActiveRecord::Migration
     CategoryType.create!(:name => "Blog Post")
     ContentType.create!(:name => "BlogPost", :group_name => "Blog")
     
-    blog_post_page = Page.create!(
-      :name => "Blog Post", 
-      :path => "/blog/post", 
-      :section => Section.root.first,
-      :template_file_name => "default.html.erb")
-      
-    BlogPostPortlet.create!(
-      :name => "Blog Post Portlet",
-      :template => BlogPostPortlet.default_template,
-      :connect_to_page_id => blog_post_page.id,
+    blog_section = Section.new(:name => "Blog", :path => "/blog", :parent_id => 1, :hidden => true)
+    blog_section.groups << Group.find_by_code("cms-admin")
+    blog_section.groups << Group.find_by_code("guest")
+    blog_section.groups << Group.find_by_code("content-editor")
+    blog_section.save!
+    
+    create_blog_page("Blog Post",           blog_section, "/articles/:year/:month/:day/:slug")
+    create_blog_page("Blog Posts In Day",   blog_section, "/articles/:year/:month/:day")
+    create_blog_page("Blog Posts In Month", blog_section, "/articles/:year/:month")
+    create_blog_page("Blog Posts In Year",  blog_section, "/articles/:year")
+    
+    PagePartial.create!(
+      :name => "_blog_post",
+      :format => "html",
+      :handler => "erb",
+      :body => <<'HTML'
+<div id="blog_post_<%= blog_post.id %>" class="blog_post">
+  <h2><%= link_to h(blog_post.name), blog_post_path(blog_post.route_params) %></h2>
+  
+  <p class="date"><%= blog_post.published_at.to_s(:long) %></p>
+  
+  <p class="body">
+    <%= blog_post.body %>
+  </p>
+  
+  <p class="meta">
+    <% unless blog_post.category_id.blank? %>
+      Posted in <%= link_to h(blog_post.category_name), blog_posts_in_category_path(:category => blog_post.category_name) %>
+      <strong>|</strong>
+    <% end %>
+    Tags 
+    <span class="tags">
+      <%= blog_post.tags.map{|t| link_to(h(t.name), blog_posts_with_tag_path(:tag => t.name)) }.join(", ") %>
+    </span>
+    <strong>|</strong>
+    
+    <%= link_to h(pluralize(blog_post.comments_count, "Comment")), "#{blog_post_path(blog_post.route_params)}#comments" %>
+  </p>
+</div>
+HTML
+)
+  end
+  
+  def self.create_blog_page(name, section, path)
+    page = Page.create!(
+      :name => name, 
+      :path => name.gsub(" ", "").underscore.downcase.sub("blog_", "/blog/"),
+      :section => section,
+      :template_file_name => "default.html.erb",
+      :hidden => true)
+    
+    route = page.page_routes.build(:name => name, :pattern => path, :code => "")
+    route.add_condition(:method, "get")
+    route.add_requirement(:year, '\d{4,}') if path.include?(":year")
+    route.add_requirement(:month, '\d{2,}') if path.include?(":month")
+    route.add_requirement(:day, '\d{2,}') if path.include?(":day")
+    route.save!
+    
+    portlet_class = "#{name.gsub(" ", "").classify}Portlet".constantize
+    portlet_class.create!(
+      :name => "#{name} Portlet",
+      :blog_id => Blog.find_by_name("My Blog").id,
+      :template => portlet_class.default_template,
+      :connect_to_page_id => page.id,
       :connect_to_container => "main",
       :publish_on_save => true)
-      
-    route = blog_post_page.page_routes.build(
-      :name => "Blog Post",
-      :pattern => "/articles/:year/:month/:day/:slug",
-      :code => "@blog_post = BlogPost.published_on(params).with_slug(params[:slug]).first")
-    route.add_condition(:method, "get")
-    route.add_requirement(:year, '\d{4,}')
-    route.add_requirement(:month, '\d{2,}')
-    route.add_requirement(:day, '\d{2,}')
-    route.save!    
-    
-    
-      
   end
 
   def self.down
-    ContentType.delete_all(['name = ?', 'BlogPost'])
-    CategoryType.all(:conditions => ['name = ?', 'Blog Post']).each(&:destroy)
+    PagePartial.destroy_all(:name => "_blog_post")
+    
+    destroy_blog_page("Blog Posts In Year")
+    destroy_blog_page("Blog Posts In Month")
+    destroy_blog_page("Blog Posts In Day")
+    destroy_blog_page("Blog Post")
+    
+    Section.destroy_all(:name => "Blog")
+    
+    ContentType.destroy_all(:name => 'BlogPost')
+    CategoryType.destroy_all(:name => "Blog Post")
+    
     drop_table :blog_post_versions
     drop_table :blog_posts
+  end
+  
+  def self.destroy_blog_page(name)
+    Portlet.destroy_all(:name => "#{name} Portlet")
+    PageRoute.destroy_all(:name => name)
+    Page.destroy_all(:name => name)
   end
 end
