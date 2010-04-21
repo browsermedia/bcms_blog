@@ -52,6 +52,7 @@ Gem::Specification.new do |s|
      "db/migrate/20090415000000_create_blogs.rb",
      "db/migrate/20090415000001_create_blog_posts.rb",
      "db/migrate/20090415000002_create_blog_comments.rb",
+     "db/migrate/20100420235930_add_attachment_to_blog_posts.rb",
      "lib/bcms_blog.rb",
      "lib/bcms_blog/routes.rb",
      "rails/init.rb"

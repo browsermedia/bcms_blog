@@ -1,6 +1,21 @@
 class BlogPost < ActiveRecord::Base
   acts_as_content_block :taggable => true
   
+  belongs_to_attachment
+  def set_attachment_file_path
+    # The default behavior is use /attachments/file.txt for the attachment path,
+    # assuming file.txt was the name of the file the user uploaded
+    # You should override this with your own strategy for setting the attachment path
+    super
+  end
+
+  def set_attachment_section
+    # The default behavior is to put all attachments in the root section
+    # Override this method if you would like to change that
+    super
+  end
+
+
   before_save :set_published_at
   
   belongs_to :blog
@@ -33,11 +48,11 @@ class BlogPost < ActiveRecord::Base
   # query directly to the database, bypassing callbacks, so published_at does not get set by our
   # set_published_at callback.
   def after_publish_with_set_published_at
-    debugger
     if published_at.nil?
       self.published_at = Time.now
       self.save!
     end
+    after_publish_without_set_published_at if respond_to? :after_publish_without_set_published_at
   end
   if instance_methods.map(&:to_s).include? 'after_publish'
     alias_method_chain :after_publish, :set_published_at
