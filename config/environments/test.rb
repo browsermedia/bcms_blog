@@ -28,4 +28,4 @@ config.action_mailer.delivery_method = :test
 # config.active_record.schema_format = :sql
 SITE_DOMAIN="localhost:3000"
 
-config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com"
+config.gem "factory_girl"
