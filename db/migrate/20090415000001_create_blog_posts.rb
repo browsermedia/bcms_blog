@@ -26,37 +26,6 @@ class CreateBlogPosts < ActiveRecord::Migration
     create_blog_page("Blog Posts In Year",     blog_section, "/articles/:year")
     create_blog_page("Blog Posts With Tag",    blog_section, "/articles/tag/:tag")
     create_blog_page("Blog Posts In Category", blog_section, "/articles/category/:category")
-
-    PagePartial.create!(
-      :name => "_blog_post",
-      :format => "html",
-      :handler => "erb",
-      :body => <<'HTML'
-<div id="blog_post_<%= blog_post.id %>" class="blog_post">
-  <h2><%= link_to h(blog_post.name), blog_post_path(blog_post.route_params) %></h2>
-
-  <p class="date"><%= blog_post.published_at.to_s(:long) %></p>
-
-  <p class="body">
-    <%= blog_post.body %>
-  </p>
-
-  <p class="meta">
-    <% unless blog_post.category_id.blank? %>
-      Posted in <%= link_to h(blog_post.category_name), blog_posts_in_category_path(:category => blog_post.category_name) %>
-      <strong>|</strong>
-    <% end %>
-    Tags
-    <span class="tags">
-      <%= blog_post.tags.map{|t| link_to(h(t.name), blog_posts_with_tag_path(:tag => t.name)) }.join(", ") %>
-    </span>
-    <strong>|</strong>
-
-    <%= link_to h(pluralize(blog_post.comments_count, "Comment")), "#{blog_post_path(blog_post.route_params)}#comments" %>
-  </p>
-</div>
-HTML
-)
   end
 
   def self.create_blog_page(name, section, path)
@@ -85,8 +54,6 @@ HTML
   end
 
   def self.down
-    PagePartial.destroy_all(:name => "_blog_post")
-
     destroy_blog_page("Blog Posts In Category")
     destroy_blog_page("Blog Posts With Tag")
     destroy_blog_page("Blog Posts In Year")

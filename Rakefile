@@ -22,8 +22,7 @@ begin
     gemspec.files = Dir["app/models/*"]
     gemspec.files += Dir["app/portlets/*"]
     gemspec.files += Dir["app/controllers/cms/*"]
-    gemspec.files += Dir["app/views/cms/blog*/*"]
-    gemspec.files += Dir["app/views/portlets/**/*"]
+    gemspec.files += Dir["app/views/**/*"]
     gemspec.files += Dir["db/migrate/[0-9]*.rb"].reject {|f| f =~ /_browsercms|_load_seed/ }
     gemspec.files += Dir["lib/bcms_blog.rb"]
     gemspec.files += Dir["lib/bcms_blog/*"]

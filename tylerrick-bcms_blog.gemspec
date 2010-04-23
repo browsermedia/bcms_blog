@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["BrowserMedia"]
-  s.date = %q{2010-04-22}
+  s.date = %q{2010-04-23}
   s.description = %q{The Blog Module for BrowserCMS}
   s.email = %q{github@browsermedia.com}
   s.extra_rdoc_files = [
@@ -37,6 +37,7 @@ Gem::Specification.new do |s|
      "app/views/cms/blogs/_form.html.erb",
      "app/views/cms/blogs/admin_only.html.erb",
      "app/views/cms/blogs/render.html.erb",
+     "app/views/partials/_blog_post.html.erb",
      "app/views/portlets/blog_post/_form.html.erb",
      "app/views/portlets/blog_post/render.html.erb",
      "app/views/portlets/blog_posts_in_category/_form.html.erb",
