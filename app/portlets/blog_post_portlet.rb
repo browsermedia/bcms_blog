@@ -1,5 +1,5 @@
 class BlogPostPortlet < Portlet
-  
+
   def render
     scope = Blog.find(self.blog_id).posts
     if params[:blog_post_id]
@@ -13,12 +13,12 @@ class BlogPostPortlet < Portlet
     else
       raise BlogPost::INCORRECT_PARAMETERS
     end
-    
+
     pmap = flash[instance_name] || params
     @blog_comment = @blog_post.comments.build pmap[:blog_comment]
     @blog_comment.errors.add_from_hash flash["#{instance_name}_errors"]
   end
-  
+
   def create_comment
     blog_comment = BlogComment.new(params[:blog_comment])
     if blog_comment.save
@@ -28,6 +28,6 @@ class BlogPostPortlet < Portlet
       store_errors_in_flash(blog_comment.errors)
       url_for_failure
     end
-  end  
-    
+  end
+
 end

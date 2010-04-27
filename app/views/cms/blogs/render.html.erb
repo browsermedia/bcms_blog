@@ -1,3 +1,2 @@
-<% page_title @blog.name %>
-<h1><%=h page_title %></h1>
+<% page_title @page_title || @blog.name %>
 <%= render :partial => "partials/blog_post", :collection => @blog_posts %>

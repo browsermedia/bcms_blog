@@ -19,10 +19,8 @@ begin
     gemspec.homepage = "http://browsercms.org"
     gemspec.description = "The Blog Module for BrowserCMS"
     gemspec.authors = ["BrowserMedia"]
-    gemspec.files = Dir["app/models/*"]
-    gemspec.files += Dir["app/portlets/*"]
-    gemspec.files += Dir["app/controllers/cms/*"]
-    gemspec.files += Dir["app/views/**/*"]
+    gemspec.files = []
+    gemspec.files += Dir["app/**/*"]
     gemspec.files += Dir["db/migrate/[0-9]*.rb"].reject {|f| f =~ /_browsercms|_load_seed/ }
     gemspec.files += Dir["lib/bcms_blog.rb"]
     gemspec.files += Dir["lib/bcms_blog/*"]

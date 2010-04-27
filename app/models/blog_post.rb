@@ -77,6 +77,12 @@ class BlogPost < ActiveRecord::Base
     self.slug = name.to_slug
   end
   
+  def path
+    send("#{blog.name_for_path}_post_path", route_params)
+  end
+  def route_name
+    "#{blog.name_for_path}_post"
+  end
   def route_params
     {:year => year, :month => month, :day => day, :slug => slug}
   end  
