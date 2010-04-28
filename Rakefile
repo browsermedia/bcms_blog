@@ -21,6 +21,7 @@ begin
     gemspec.authors = ["BrowserMedia"]
     gemspec.files = []
     gemspec.files += Dir["app/**/*"]
+    gemspec.files += Dir["doc/**/*"]
     gemspec.files += Dir["db/migrate/[0-9]*.rb"].reject {|f| f =~ /_browsercms|_load_seed/ }
     gemspec.files += Dir["lib/bcms_blog.rb"]
     gemspec.files += Dir["lib/bcms_blog/*"]
