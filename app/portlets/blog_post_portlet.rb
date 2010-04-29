@@ -1,4 +1,6 @@
 class BlogPostPortlet < Portlet
+  #render_inline false
+  #enable_template_editor false
 
   def render
     scope = Blog.find(self.blog_id).posts
@@ -15,13 +17,16 @@ class BlogPostPortlet < Portlet
     end
 
     pmap = flash[instance_name] || params
+    pmap[:blog_comment] ||= {}
+
     @blog_comment = @blog_post.comments.build pmap[:blog_comment]
     @blog_comment.errors.add_from_hash flash["#{instance_name}_errors"]
   end
 
   def create_comment
+    params[:blog_comment].merge! :ip => request.remote_ip
     blog_comment = BlogComment.new(params[:blog_comment])
-    if blog_comment.save
+    if blog_comment.valid? && blog_comment.save
       url_for_success
     else
       store_params_in_flash

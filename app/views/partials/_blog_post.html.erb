@@ -23,12 +23,15 @@
     margin: 10px;
     margin-top: 0;
   }
-
   .blog_post .date {
     color: #666;
   }
   .blog_post .read_more {
     font-weight: bold;
+  }
+
+  .blog_post .comment + .comment {
+    border-top: 1px dashed #ccc;
   }
 
   .clear {
@@ -58,7 +61,7 @@
   
   <div class="date"><%= blog_post.published_at.to_s(:long) %></div>
   
-  <p class="body">
+  <div class="body">
     <% if showing_individual_post or blog_post.summary.blank? %>
       <%= blog_post.body %>
     <% else %>
@@ -67,9 +70,9 @@
         <%= link_to 'Read More »', href %>
       </p>
     <% end %>
-  </p>
+  </div>
   
-  <p class="meta">
+  <div class="meta">
     <% unless blog_post.category_id.blank? %>
       Posted in <%= link_to h(blog_post.category_name), _blog_path(blog_post.blog, 'posts_in_category', :category => blog_post.category_name) %>
       <strong>|</strong>
@@ -84,6 +87,20 @@
     <% end %>
     
     <%= link_to h(pluralize(blog_post.comments_count, "Comment")), "#{_blog_post_path(blog_post)}#comments" %>
-  </p>
+  </div>
   <br class="clear" />
+
+
+  <% comments = blog_post.comments.reject(&:new_record?) %>
+  <% if showing_individual_post and comments.any? -%>
+    <h2>Comments</h2>
+    <% comments.each_with_index do |comment, i| %>
+      <div class="comment <%= 'first' if i == 0 %>">
+        <%= h comment.body %>
+        <p>&mdash;<%= comment.url.present? ? link_to(h(comment.author), comment.url) : h(comment.author) %></p>
+      </div>
+    <% end %>
+  <% end %>
+
+
 </div>

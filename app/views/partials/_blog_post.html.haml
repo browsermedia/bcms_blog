@@ -28,6 +28,9 @@
       .read_more
         font-weight: bold
 
+      .comment + .comment
+        border-top: 1px dashed #ccc
+
     .clear
       clear: both
 
@@ -55,9 +58,9 @@
 
   %h2= link_to h(blog_post.name), href = _blog_post_path(blog_post)
 
-  .date= blog_post.published_at.to_s(:long_with_day_name)
+  .date= blog_post.published_at.to_s(:long)
 
-  %p.body
+  .body
     - if showing_individual_post or blog_post.summary.blank?
       = blog_post.body
     - else
@@ -65,7 +68,7 @@
       %p.read_more= link_to 'Read More »', href
 
   - if showing_individual_post || blog_post_counter == 0
-    %p.meta
+    .meta
       - unless blog_post.category_id.blank?
         Posted in #{link_to h(blog_post.category_name), _blog_path(blog_post.blog, 'posts_in_category', :category => blog_post.category_name)}
         %strong |
@@ -76,3 +79,13 @@
         %strong |
         = link_to h(pluralize(blog_post.comments_count, "Comment")), "#{_blog_post_path(blog_post)}#comments"
   %br.clear/
+
+  - comments = blog_post.comments.reject(&:new_record?)
+  - if showing_individual_post and comments.any?
+    %h2 Comments
+    - comments.each_with_index do |comment, i|
+      %div{:class => "comment #{'first' if i == 0}"}
+        = h comment.body
+        %p
+          \&mdash;#{comment.url.present? ? link_to(h(comment.author), comment.url) : h(comment.author)}
+

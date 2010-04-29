@@ -1,5 +1,1 @@
 <%= render :partial => "partials/blog_post", :object => @content_block %>
-<h2>Comments</h2>
-<% for comment in @content_block.comments %>
-  <p><%=h comment.body %></p>
-<% end %>
