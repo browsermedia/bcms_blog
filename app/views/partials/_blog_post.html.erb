@@ -1,10 +1,72 @@
-<div id="blog_post_<%= blog_post.id %>" class="blog_post">
-  <h2><%= link_to h(blog_post.name), _blog_post_path(blog_post) %></h2>
+<style>
+  .blog_post {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+
+  .blog_post h2 {
+    margin-bottom: 0
+  }
+
+  .blog_post h2,
+  .blog_post h2 a {
+    font: normal 30px/28px 'arial black', arial, sans-serif !important;
+    text-decoration: none !important;
+  }
+  .blog_post h2 a:hover {
+    text-decoration: underline !important;
+  }
+
+  .blog_post .image {
+    float: left;
+    border: 1px solid #ccc;
+    margin: 10px;
+    margin-top: 0;
+  }
+
+  .blog_post .date {
+    color: #666;
+  }
+  .blog_post .read_more {
+    font-weight: bold;
+  }
+
+  .clear {
+    clear: both;
+  }
+</style>
+
+<%
+  # _counter is defined only if we pass :collection to the partial
+  if defined?(blog_post_counter)
+    showing_individual_post = false
+  else
+    showing_individual_post = true
+    blog_post_counter = 0
+  end
+%>
+
+<div id="blog_post_<%= blog_post.id %>" class="blog_post clear">
+  <% if blog_post.attachment %>
+    <div class="image">
+      <%# image_tag_with_max_size blog_post.attachment.file_path, blog_post.attachment.full_file_location, :width => max_width %>
+      <%= image_tag blog_post.attachment.file_path %>
+    </div>
+  <% end %>
+
+  <h2><%= link_to h(blog_post.name), href = _blog_post_path(blog_post) %></h2>
   
-  <p class="date"><%= blog_post.published_at.to_s(:long) %></p>
+  <div class="date"><%= blog_post.published_at.to_s(:long) %></div>
   
   <p class="body">
-    <%= blog_post.body %>
+    <% if showing_individual_post or blog_post.summary.blank? %>
+      <%= blog_post.body %>
+    <% else %>
+      <%= blog_post.summary %>
+      <p class="read_more">
+        <%= link_to 'Read More »', href %>
+      </p>
+    <% end %>
   </p>
   
   <p class="meta">
@@ -14,7 +76,7 @@
     <% end %>
 
     <% if blog_post.tags.any? %>
-    Tags 
+      Tags:
       <span class="tags">
         <%= blog_post.tags.map{|t| link_to(h(t.name), _blog_path(blog_post.blog, 'posts_with_tag', :tag => t.name)) }.join(", ") %>
       </span>
@@ -23,4 +85,5 @@
     
     <%= link_to h(pluralize(blog_post.comments_count, "Comment")), "#{_blog_post_path(blog_post)}#comments" %>
   </p>
+  <br class="clear" />
 </div>
