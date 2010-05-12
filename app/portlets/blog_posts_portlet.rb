@@ -28,6 +28,11 @@ class BlogPostsPortlet < Portlet
       finder = BlogPost
     end
 
+    if options[:tags].is_a?(Array) && options[:tags].size > 1
+      other_tags = options[:tags][1..-1]
+      options[:tags] = options[:tags][0]
+    end
+
     finder = finder.published
     finder = Blog.posts_finder(finder, options)
 
@@ -35,6 +40,11 @@ class BlogPostsPortlet < Portlet
       :limit => options[:limit] || 25,
       :order => "published_at desc"
     )
+
+    if other_tags
+      @blog_posts.select! {|p| (p.tags.map(&:name).map(&:downcase) & other_tags.map(&:downcase)).size == other_tags.size }
+    end
+
     raise ActiveRecord::RecordNotFound.new("No articles found") if @blog_posts.empty?
 
     @portlet = self
