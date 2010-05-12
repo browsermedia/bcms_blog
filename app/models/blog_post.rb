@@ -32,6 +32,18 @@ class BlogPost < ActiveRecord::Base
          start, finish ] }
   }
 
+  named_scope :not_tagged_with, lambda { |tag| {
+    :conditions => [
+      "blog_posts.id not in (
+        SELECT taggings.taggable_id FROM taggings
+        JOIN tags ON tags.id = taggings.tag_id
+        WHERE taggings.taggable_type = 'BlogPost'
+        AND (tags.name = ?)
+      )",
+      tag
+    ]
+  } }
+
   INCORRECT_PARAMETERS = "Incorrect parameters. This is probably because you are trying to view the " +
                          "portlet through the CMS interface, and so we have no way of knowing what " +
                          "post(s) to show"

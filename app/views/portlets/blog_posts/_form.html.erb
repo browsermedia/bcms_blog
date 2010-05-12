@@ -1,0 +1,12 @@
+<%= f.cms_text_field :name, :label => 'Portlet Name', :instructions => 'Since we may have many Articles portlets, each with different parameters, give each portlet a descriptive name.' %>
+
+<%= f.cms_drop_down :blog_id, Blog.all.map{|b| [b.name, b.id.to_s]}, :include_blank => true, :label => "Show posts from", :instructions => 'Leave blank to include posts from all blogs' %>
+<%# f.cms_drop_down :show_posts_as, [['First post as full post, the rest as Summary + Read More link', 'first_full_post_others_summary'], ['Summary + Read More link', 'summary'], ['Full post', 'full_post'], ['Title (links to post)', 'link']] %>
+<%= f.cms_drop_down :show_posts_as, [['Title (links to post)', 'link'], ['Post', 'post']] %>
+<%= f.cms_drop_down :category_id, categories_for('Blog Post').map{|c| [c.path, c.id]}, :include_blank => true, :label => "Only posts in category" %>
+<%= f.cms_tag_list :label => "Only posts with tags", :instructions => 'Separate tags with spaces' %>
+<%= f.cms_text_field :exclude_tags, :label => 'Exclude posts with tags' %>
+<%= f.cms_text_field :limit, :label => 'Limit' %>
+<%= f.cms_text_area :render_blog_post_code, :label => 'Code to turn blog_post into link text' %>
+
+<%= f.cms_template_editor :template %>

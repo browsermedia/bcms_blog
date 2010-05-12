@@ -1,3 +1,3 @@
 <%= f.cms_text_field :name %>
 <%= f.cms_drop_down :blog_id, Blog.all.map{|b| [b.name, b.id.to_s]} %>
-<%= f.cms_text_area :template, :default_value => @block.class.default_template %>
+<%# f.cms_text_area :template, :default_value => @block.class.default_template %>
