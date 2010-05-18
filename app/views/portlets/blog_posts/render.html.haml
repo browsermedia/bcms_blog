@@ -1,5 +1,5 @@
 - if @portlet.show_posts_as == 'post'
-  = render :partial => '/partials/blog_post', :collection => @blog_posts, :locals => {:show_full_posts => @portlet.show_full_posts}
+  = render :partial => '/partials/blog_post', :collection => @blog_posts, :locals => {:show_full_posts => @options[:show_full_posts]}
 - elsif @portlet.show_posts_as == 'link'
   %ul.blog_posts
     - for blog_post in @blog_posts

@@ -1,8 +1,6 @@
 class BlogPostsPortlet < Portlet
   def after_initialize
     self.render_blog_post_code ||= 'truncate(blog_post.name, 30)'
-
-
   end
 
   # Mark this as 'true' to allow the portlet's template to be editable via the CMS admin UI.
@@ -17,27 +15,27 @@ class BlogPostsPortlet < Portlet
     portlet_attributes = self.portlet_attributes.inject({}) {|hash, a| hash[a.name] = a.value; hash}.reject {|k,v| v.blank?}.symbolize_keys
 
     #options.reverse_merge!(params.slice(:tags)).symbolize_keys!
-    options = portlet_attributes.reverse_merge(_options)
-    Rails.logger.debug "... BlogPostsPortlet#render(options=#{options.inspect} #{options.class})"
+    @options = portlet_attributes.merge(_options)
+    Rails.logger.debug "... BlogPostsPortlet#render(options=#{@options.inspect} #{@options.class})"
 
-    if options[:blog_id]
-      finder = Blog.find(options[:blog_id]).posts
-    elsif options[:blog_name]
-      finder = Blog.find_by_name(options[:blog_name]).posts
+    if @options[:blog_id]
+      finder = Blog.find(@options[:blog_id]).posts
+    elsif @options[:blog_name]
+      finder = Blog.find_by_name(@options[:blog_name]).posts
     else
       finder = BlogPost
     end
 
-    if options[:tags].is_a?(Array) && options[:tags].size > 1
-      other_tags = options[:tags][1..-1]
-      options[:tags] = options[:tags][0]
+    if @options[:tags].is_a?(Array) && @options[:tags].size > 1
+      other_tags = @options[:tags][1..-1]
+      @options[:tags] = @options[:tags][0]
     end
 
     finder = finder.published
-    finder = Blog.posts_finder(finder, options)
+    finder = Blog.posts_finder(finder, @options)
 
     @blog_posts = finder.all(
-      :limit => options[:limit] || 25,
+      :limit => @options[:limit] || 25,
       :order => "published_at desc"
     )
 
