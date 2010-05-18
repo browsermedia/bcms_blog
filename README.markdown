@@ -67,3 +67,7 @@ Modules will often add new data types, like content blocks, so you need to run t
 * Keep in mind that the same partial is used both on the main blog page (which lists all posts) and on the blog post page (that shows a single post)
     * If you want something to only show up on the blog post page, you can enclose your markup within a `if showing_individual_post`
     * If you want something to only show up on the main blog page, you can enclose your markup within a `if !showing_individual_post`
+
+## Caveats
+
+* Keep in mind that "[Blog]: Post" and "[Blog]" are both separate pages. So if you want them to both look the same, you not only need to edit both pages to set the template to be the same; you will also need to add all the same content blocks to each container on both pages.
