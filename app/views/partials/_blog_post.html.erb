@@ -90,7 +90,6 @@
   </div>
   <br class="clear" />
 
-
   <% comments = blog_post.comments.published.reject(&:new_record?) %>
   <% if showing_individual_post and comments.any? -%>
     <h2>Comments</h2>
@@ -101,6 +100,4 @@
       </div>
     <% end %>
   <% end %>
-
-
 </div>

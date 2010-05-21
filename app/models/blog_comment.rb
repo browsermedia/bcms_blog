@@ -3,6 +3,10 @@ class BlogComment < ActiveRecord::Base
   belongs_to :post, :class_name => "BlogPost", :counter_cache => "comments_count"
 
   validates_presence_of :post_id, :author, :body
+  
+  def before_create
+    self.published = true unless post.blog.moderate_comments?
+  end
 
   def self.default_order
     "blog_comments.created_at desc"
