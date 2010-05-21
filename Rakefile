@@ -12,7 +12,7 @@ require 'tasks/rails'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "tylerrick-bcms_blog"
+    gemspec.name = "bcms_blog"
     gemspec.rubyforge_project = "browsercms"
     gemspec.summary = "The Blog Module for BrowserCMS"
     gemspec.email = "github@browsermedia.com"
