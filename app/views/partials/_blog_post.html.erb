@@ -86,12 +86,12 @@
       <strong>|</strong>
     <% end %>
     
-    <%= link_to h(pluralize(blog_post.comments_count, "Comment")), "#{_blog_post_path(blog_post)}#comments" %>
+    <%= link_to h(pluralize(blog_post.comments.published.count, "Comment")), "#{_blog_post_path(blog_post)}#comments" %>
   </div>
   <br class="clear" />
 
 
-  <% comments = blog_post.comments.reject(&:new_record?) %>
+  <% comments = blog_post.comments.published.reject(&:new_record?) %>
   <% if showing_individual_post and comments.any? -%>
     <h2>Comments</h2>
     <% comments.each_with_index do |comment, i| %>
