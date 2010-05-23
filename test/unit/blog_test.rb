@@ -2,22 +2,97 @@ require File.dirname(__FILE__) + "/../test_helper"
 
 class BlogTest < ActiveSupport::TestCase
   
-  def test_editable_by_user
-    @group = Factory(:group, :group_type => Factory(:group_type, :name => "CMS User", :cms_access => true))
-    @user = Factory.create(:user, :groups => [@group])
-    @editable = Factory.create(:blog, :groups => [@group])
-    @non_editable = Factory.create(:blog)
+  def setup
+    setup_stubs
+    @blog = Factory(:blog, :name => 'TestBlog')
+    # Factory(:blog_post, :blog => @blog) #unpublished post
+  end
+
+  test "creates a valid instance" do
+    assert @blog.valid?
+  end
+  
+  test "should not be valid without a name" do
+    assert !Factory.build(:blog, :name => nil).valid?
+  end
+  
+  test "should be editable by user" do
+    group = Factory(:group, :group_type  => Factory(:group_type,:cms_access => true))
+    user = Factory(:user, :groups => [group])
+    blog = Factory.build(:blog, :groups => [group])
+    assert blog.editable_by?(user)
+    assert !@blog.editable_by?(user)
+  end
+  
+  test "should be editable by administrators" do
+    admin = Factory(:user, :groups => [Group.find_by_code("cms-admin")])
+    assert @blog.editable_by?(admin)
+  end
+  
+  test "should create a section with the same name and route" do
+    Section.expects(:create!).with(:name => 'Test', :path => '/test', :parent_id => 1).returns(@section)
+    Factory(:blog, :name => 'Test')
+  end
+  
+  test "should create a hidden page with the same name in the section with the blog's name" do
+    Page.expects(:create!).with(:name => 'Test', 
+                                :path => '/test', 
+                                :section => @section, 
+                                :template_file_name => 'default.html.erb',
+                                :hidden => true).returns(Page.new)
+    Factory(:blog, :name => 'Test')       
+  end
+  
+  test "should create a page to hold the BlogPostPortlet" do
+    Page.expects(:create!).with(:name => 'Test: Post', 
+                                :path => '/test/post', 
+                                :section => @section, 
+                                :template_file_name => 'default.html.erb',
+                                :hidden => true).returns(Page.new)
+    Factory(:blog, :name => 'Test')  
+  end
+  
+  test "should create an instance of BlogPostPortlet" do
+    BlogPostPortlet.expects(:create!).with(:name => 'Test: Post Portlet',
+                                           :blog_id => 2,
+                                           :template => BlogPostPortlet.default_template,
+                                           :connect_to_page_id => nil,
+                                           :connect_to_container => 'main',
+                                           :publish_on_save => true).returns(BlogPostPortlet.new)
+    Factory(:blog, :name => 'Test')
+  end
+  
+  test "should find posts tagged with 'Ruby'" do
     
-    assert_equal [@editable], Blog.editable_by(@user)
-    assert @editable.editable_by?(@user)
-    assert !@non_editable.editable_by?(@user)
   end
   
-  def test_editable_by_administrator
-    @user = Factory.create(:user, :groups => [Group.find_by_code("cms-admin")])
-    @blog = Factory.create(:blog)
-    assert Blog.editable_by(@user).include?(@blog)
-    assert @blog.editable_by?(@user)
+  test "should find posts in category 'Rails'" do
+    
   end
   
+  test "should find posts published between a given date YY/MM/DD" do
+    
+  end
+  
+  test "should find posts published between a given date YY/MM" do
+    
+  end
+  
+  test "should find posts published between a given date YY" do
+    
+  end
+  
+  private
+  
+  # The after_create callback in Blog creates a section, 2 pages, a bunch
+  # of page routes, a connector and a portlet. All that setup takes a lot of 
+  # time so we are stubbing that out or the tests would take forever to run. 
+  def setup_stubs
+    @section = Section.new
+    Section.stubs(:create! => @section)
+    @section.stubs(:groups => [], :save! => true)
+    Page.stubs(:create! => Page.new)
+    Page.any_instance.stubs(:create_connector)
+    PageRoute.any_instance.stubs(:save!)    
+  end
 end

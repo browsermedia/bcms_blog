@@ -2,6 +2,7 @@ if ActiveRecord::Base.connection.table_exists?("blogs")
 
   Factory.define :group do |m|
     m.sequence(:name) {|n| "TestGroup#{n}" }
+    m.association :group_type
   end
 
   Factory.define :group_type do |m|
@@ -27,17 +28,17 @@ if ActiveRecord::Base.connection.table_exists?("blogs")
     m.moderate_comments true
   end
 
-  Factory.define :blog_post do |b|
-    b.sequence(:name) { |n| "BlogPost#{n}" }
-    b.blog {|b| b.association(:blog) }
-    b.sequence(:body) { |n| "Lorem ipsum #{n}" }
-    b.author { |a| a.association(:user) }
+  Factory.define :blog_post do |m|
+    m.sequence(:name) { |n| "BlogPost#{n}" }
+    m.blog {|b| b.association(:blog) }
+    m.sequence(:body) { |n| "Lorem ipsum #{n}" }
+    m.association :author, :factory => :user
   end
 
   Factory.define :blog_comment do |m|
     m.name "Just a comment"
     m.body "Nice blog"
-    m.post {|p| p.association(:blog_post)}
-    m.author {|a| a.association(:user)}
+    m.association :post, :factory => :blog_post
+    m.association :author, :factory => :user
   end
 end

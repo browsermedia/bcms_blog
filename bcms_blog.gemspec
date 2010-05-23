@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["BrowserMedia"]
-  s.date = %q{2010-05-20}
+  s.date = %q{2010-05-21}
   s.description = %q{The Blog Module for BrowserCMS}
   s.email = %q{github@browsermedia.com}
   s.extra_rdoc_files = [
@@ -46,6 +46,7 @@ Gem::Specification.new do |s|
      "db/migrate/20090415000001_create_blog_posts.rb",
      "db/migrate/20090415000002_create_blog_comments.rb",
      "db/migrate/20090415000003_add_attachment_to_blog_posts.rb",
+     "db/migrate/20100521042244_add_moderate_comments_to_blog.rb",
      "doc/README_FOR_APP",
      "doc/migrate_to_20100427.rb",
      "lib/bcms_blog.rb",
@@ -67,6 +68,7 @@ Gem::Specification.new do |s|
      "test/performance/browsing_test.rb",
      "test/test_helper.rb",
      "test/test_logging.rb",
+     "test/unit/blog_comment_test.rb",
      "test/unit/blog_post_test.rb",
      "test/unit/blog_test.rb"
   ]
