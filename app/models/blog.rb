@@ -133,10 +133,8 @@ protected
     page.publish
     create_route(  page, portlet_name, "/#{name_for_path}/:year/:month/:day/:slug")
     create_portlet(page, portlet_name, BlogPostPortlet)
-
-    # FIXME: This takes about 5 seconds to run, which is probably too long.
-    # Solution: Disable PageRoute's after_save :reload_routes and add this to the end here:
-    # ActionController::Routing::Routes.load!
+    
+    reload_routes
   end
 
   def create_route(page, name, pattern)
@@ -145,7 +143,7 @@ protected
     route.add_requirement(:year,  '\d{4,}') if pattern.include?(":year")
     route.add_requirement(:month, '\d{2,}') if pattern.include?(":month")
     route.add_requirement(:day,   '\d{2,}') if pattern.include?(":day")
-    route.save!
+    route.send(:create_without_callbacks)
   end
 
   def create_portlet(page, name, portlet_class)
@@ -156,5 +154,9 @@ protected
       :connect_to_page_id => page.id,
       :connect_to_container => "main",
       :publish_on_save => true)
+  end
+  
+  def reload_routes
+     ActionController::Routing::Routes.load!
   end
 end

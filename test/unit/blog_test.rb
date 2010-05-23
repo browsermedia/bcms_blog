@@ -84,15 +84,14 @@ class BlogTest < ActiveSupport::TestCase
   
   private
   
-  # The after_create callback in Blog creates a section, 2 pages, a bunch
-  # of page routes, a connector and a portlet. All that setup takes a lot of 
-  # time so we are stubbing that out or the tests would take forever to run. 
   def setup_stubs
+    Blog.any_instance.stubs(:reload_routes)
     @section = Section.new
     Section.stubs(:create! => @section)
     @section.stubs(:groups => [], :save! => true)
     Page.stubs(:create! => Page.new)
     Page.any_instance.stubs(:create_connector)
-    PageRoute.any_instance.stubs(:save!)    
+   
+    PageRoute.any_instance.stubs(:create_without_callbacks)
   end
 end
