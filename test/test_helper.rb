@@ -3,17 +3,17 @@ ENV['BACKTRACE'] = "YES PLEASE"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
-unless $database_initialized
-  $database_initialized = true
-  
-  # Empty the database and load in the default seed data for browsercms
-  # and the blog module
-  `rake db:test:purge`
-  `rake db:migrate`
-
-  # Publish all pages, as they are drafts after migrating
-  Page.find(:all).each(&:publish!)
-end
+# unless $database_initialized
+#   $database_initialized = true
+#   
+#   # Empty the database and load in the default seed data for browsercms
+#   # and the blog module
+#   `rake db:test:purge`
+#   `rake db:migrate`
+# 
+#   # Publish all pages, as they are drafts after migrating
+#   Page.find(:all).each(&:publish!)
+# end
 
 class ActiveSupport::TestCase
   require File.dirname(__FILE__) + '/test_logging'
@@ -50,6 +50,16 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def setup_stubs
+    Blog.any_instance.stubs(:reload_routes)
+    @section = Section.new
+    Section.stubs(:create! => @section)
+    @section.stubs(:groups => [], :save! => true)
+    Page.stubs(:create! => Page.new)
+    Page.any_instance.stubs(:create_connector)
+    Group.stubs(:find_by_code => Group.new)
+  end
+  
   def create_baseline_data
     # Find the seed data items
     @blog = Blog.find_by_name("My Blog")

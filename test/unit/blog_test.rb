@@ -12,7 +12,7 @@ class BlogTest < ActiveSupport::TestCase
     assert @blog.valid?
   end
   
-  test "should not be valid without a name" do
+  test "requires name" do
     assert !Factory.build(:blog, :name => nil).valid?
   end
   
@@ -25,7 +25,8 @@ class BlogTest < ActiveSupport::TestCase
   end
   
   test "should be editable by administrators" do
-    admin = Factory(:user, :groups => [Group.find_by_code("cms-admin")])
+    admin = Factory(:user)
+    admin.expects(:able_to?).with(:administrate).returns(true)
     assert @blog.editable_by?(admin)
   end
   
@@ -82,16 +83,4 @@ class BlogTest < ActiveSupport::TestCase
     
   end
   
-  private
-  
-  def setup_stubs
-    Blog.any_instance.stubs(:reload_routes)
-    @section = Section.new
-    Section.stubs(:create! => @section)
-    @section.stubs(:groups => [], :save! => true)
-    Page.stubs(:create! => Page.new)
-    Page.any_instance.stubs(:create_connector)
-   
-    PageRoute.any_instance.stubs(:create_without_callbacks)
-  end
 end
