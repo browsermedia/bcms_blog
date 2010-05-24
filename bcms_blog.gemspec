@@ -9,11 +9,12 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["BrowserMedia"]
-  s.date = %q{2010-05-21}
+  s.date = %q{2010-05-24}
   s.description = %q{The Blog Module for BrowserCMS}
   s.email = %q{github@browsermedia.com}
   s.extra_rdoc_files = [
-    "README.markdown"
+    "LICENSE.txt",
+     "README.markdown"
   ]
   s.files = [
     "app/controllers/application_controller.rb",
@@ -49,6 +50,7 @@ Gem::Specification.new do |s|
      "db/migrate/20100521042244_add_moderate_comments_to_blog.rb",
      "doc/README_FOR_APP",
      "doc/migrate_to_20100427.rb",
+     "doc/release_notes.txt",
      "lib/bcms_blog.rb",
      "lib/bcms_blog/routes.rb",
      "rails/init.rb"

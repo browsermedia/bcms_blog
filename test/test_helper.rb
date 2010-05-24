@@ -57,7 +57,6 @@ class ActiveSupport::TestCase
     @section.stubs(:groups => [], :save! => true)
     Page.stubs(:create! => Page.new)
     Page.any_instance.stubs(:create_connector)
-    Group.stubs(:find_by_code => Group.new)
   end
   
   def create_baseline_data

@@ -1,0 +1,40 @@
+v1.1.0
+
+This version introduces significant changes and improvements over version 1.0.0
+and lays the groundwork for a more sophisticated blogging platform for BrowserCMS.
+
+Notable Features:
+=================
+
+1. A Blog and supporting structure (sections, pages, page routes, etc.) and data are no longer 
+   created as part of the modules's installation process. When running the module's migrations,
+   only the following items are created:
+   
+   * blogs, blog_posts and blog_comment tables (and corresponding tables to hold versioning data)
+   * blog_group_memberships table
+   * Blog, BlogPost and BlogComment content types
+   * Blog Post category type
+   
+2. It is only until a Blog is created when a corresponding section, pages, page routes and portlets are created.
+   Each blog has its own section, pages and page routes, which allows for multiple blogs to be created.
+
+3. It is now possible to add attachments to blog posts.
+
+4. Comments are moderated by default using BrowserCMS' default behaviors. However, when creating a Blog,
+   users can specify whether comments should be published automatically.
+   
+5. The module now uses BrowserCMS' permissions framework to specify if a particular user is able to
+   create or edit Blogs and BlogPosts.
+
+6. Portlets have been improved to match common standard blog publishing templates.
+
+For a complete rundown and rationale behind the changes introduced, please refer to:
+https://browsermedia.lighthouseapp.com/projects/28481/tickets/163-review-and-integrate-changes-to-the-blog-module
+
+Contributors:
+=============
+Tyler Rick
+Jon Leighton
+
+
+v1.0.0
