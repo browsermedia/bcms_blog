@@ -3,18 +3,6 @@ ENV['BACKTRACE'] = "YES PLEASE"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
-# unless $database_initialized
-#   $database_initialized = true
-#   
-#   # Empty the database and load in the default seed data for browsercms
-#   # and the blog module
-#   `rake db:test:purge`
-#   `rake db:migrate`
-# 
-#   # Publish all pages, as they are drafts after migrating
-#   Page.find(:all).each(&:publish!)
-# end
-
 class ActiveSupport::TestCase
   require File.dirname(__FILE__) + '/test_logging'
   include TestLogging  
@@ -50,14 +38,6 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
-  def setup_stubs
-    Blog.any_instance.stubs(:reload_routes)
-    @section = Section.new
-    Section.stubs(:create! => @section)
-    @section.stubs(:groups => [], :save! => true)
-    Page.stubs(:create! => Page.new)
-    Page.any_instance.stubs(:create_connector)
-  end
   
   def create_baseline_data
     # Find the seed data items
@@ -94,16 +74,26 @@ class ActiveSupport::TestCase
     Category.destroy_all
     BlogPost.destroy_all
   end
+
+  def setup_stubs
+    Blog.any_instance.stubs(:reload_routes)
+    @section = Section.new
+    Section.stubs(:create! => @section)
+    @section.stubs(:groups => [], :save! => true)
+    Page.stubs(:create! => Page.new)
+    Page.any_instance.stubs(:create_connector)
+  end
   
-  def create_non_admin_user
-    @group = Factory(:group, :name => "Test", :group_type => Factory(:group_type, :name => "CMS User", :cms_access => true))
-    @group.permissions << Permission.find_by_name("edit_content")
-    @group.permissions << Permission.find_by_name("publish_content")
-    @group.save!
-    
-    @user = Factory(:user)
-    @user.groups << @group
-    @user.save!
+  def create_group
+   @group = Factory(:group, :name => "Test", :group_type => Factory(:group_type, :name => "CMS User", :cms_access => true))
+   @group.permissions << Factory(:permission, :name => "edit_content")
+   @group.permissions << Factory(:permission, :name => "publish_content")
+  end
+  
+  def create_user(opts = {})
+    create_group
+    @group.permissions << Factory(:permission, :name => "administrate") if opts[:admin]
+    @user = Factory(:user, :groups => [@group])
   end
   
   def login_as(user)

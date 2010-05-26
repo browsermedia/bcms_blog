@@ -8,6 +8,10 @@ if ActiveRecord::Base.connection.table_exists?("blogs")
   Factory.define :group_type do |m|
     m.sequence(:name) {|n| "TestGroupType#{n}" }
   end
+  
+  Factory.define :permission do |m|
+    m.name "edit_content"
+  end
 
   Factory.define :user do |m|
     m.first_name "Test"

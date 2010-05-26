@@ -1,12 +1,25 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
 class Cms::BlogsControllerTest < ActionController::TestCase
-  def test_list_blog_posts_as_non_admin
-    create_non_admin_user
-    login_as(@user)
-    
+  
+  def setup
+    setup_stubs
+    ContentType.create!(:name => 'Blog', :group_name => 'Blog')
+    Factory(:blog)
+  end
+  
+  test "should allow access to admin users" do
+    login_as(create_user(:admin => true))
     get :index
     assert_response :success
-    assert @response.body.include? "Sorry, this section is restricted to administrators."
+    assert assigns(:blocks)
+    assert_template("index")
+  end
+  
+  test "should not allow access to non-admin users" do
+    login_as(create_user)
+    get :index
+    assert_response :success
+    assert_template("admin_only.html.erb")    
   end
 end
