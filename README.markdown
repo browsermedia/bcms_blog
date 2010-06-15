@@ -68,6 +68,16 @@ on this repository to app/views/partials on your application and modify it to su
 
 Keep in mind that both the posts list and individual post pages are handled by the same partial.
 
+## Routes
+
+When each blog is created, there is an additional set of routes that are also created, based on the 'path' of the blog. The initial blog path is based on the name of the blog.
+
+/:blog_path/:year/:month/:day/:slug
+/:blog_path/:year/:month/:day
+/:blog_path/:year/:month
+/:blog_path/:year
+/:blog_path/tag/:tag
+/:blog_path/category/:category
 
 ## Architecture
 
@@ -82,4 +92,10 @@ Special thanks to some amazing folks from the BrowserCMS community for their wor
 
 * Tyler Rick  (http://github.com/TylerRick)
 * Jon Leighton (http://github.com/jonleighton)
+
+## Wishlist Features
+
+* RSS feeds - Each blog should have its own RSS feed created as part of the initial blog creation.
+* Notifications for Comments - Blogs should have an option to be notified when a new comment is created. This will allow for practical management of comments/spam.
+* Messaging for Moderated comments - If moderation is turned on, users get no feedback about the comment they just left. Ideally, they would get some sort of javascript notice that their comment is awaiting notification.
 
