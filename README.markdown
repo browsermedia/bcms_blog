@@ -72,12 +72,12 @@ Keep in mind that both the posts list and individual post pages are handled by t
 
 When each blog is created, there is an additional set of routes that are also created, based on the 'path' of the blog. The initial blog path is based on the name of the blog.
 
-/:blog_path/:year/:month/:day/:slug
-/:blog_path/:year/:month/:day
-/:blog_path/:year/:month
-/:blog_path/:year
-/:blog_path/tag/:tag
-/:blog_path/category/:category
+    /:blog_path/:year/:month/:day/:slug
+    /:blog_path/:year/:month/:day
+    /:blog_path/:year/:month
+    /:blog_path/:year
+    /:blog_path/tag/:tag
+    /:blog_path/category/:category
 
 ## Architecture
 
