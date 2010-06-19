@@ -13,7 +13,7 @@ class BlogTest < ActiveSupport::TestCase
   end
   
   test "requires name" do
-    assert !Factory.build(:blog, :name => nil).valid?
+    assert Factory.build(:blog, :name => nil).invalid?
   end
   
   test "should be editable by user" do
