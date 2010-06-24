@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] = "test"
 ENV['BACKTRACE'] = "YES PLEASE"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
+require 'factory_girl'
 
 class ActiveSupport::TestCase
   require File.dirname(__FILE__) + '/test_logging'
