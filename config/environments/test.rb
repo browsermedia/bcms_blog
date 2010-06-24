@@ -29,4 +29,4 @@ config.action_mailer.delivery_method = :test
 SITE_DOMAIN="localhost:3000"
 
 config.gem "factory_girl", :source => "http://gemcutter.org"
-config.gem "mocha"
+config.gem "mocha", :version => ">= 0.9.7"

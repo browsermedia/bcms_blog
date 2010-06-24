@@ -63,24 +63,24 @@ class BlogTest < ActiveSupport::TestCase
     Factory(:blog, :name => 'Test')
   end
   
-  test "should find posts tagged with 'Ruby'" do
-    
-  end
-  
-  test "should find posts in category 'Rails'" do
-    
-  end
-  
-  test "should find posts published between a given date YY/MM/DD" do
-    
-  end
-  
-  test "should find posts published between a given date YY/MM" do
-    
-  end
-  
-  test "should find posts published between a given date YY" do
-    
-  end
+  # test "should find posts tagged with 'Ruby'" do
+  #   
+  # end
+  # 
+  # test "should find posts in category 'Rails'" do
+  #   
+  # end
+  # 
+  # test "should find posts published between a given date YY/MM/DD" do
+  #   
+  # end
+  # 
+  # test "should find posts published between a given date YY/MM" do
+  #   
+  # end
+  # 
+  # test "should find posts published between a given date YY" do
+  #   
+  # end
   
 end
