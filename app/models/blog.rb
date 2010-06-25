@@ -9,6 +9,7 @@ class Blog < ActiveRecord::Base
   validates_uniqueness_of :name
   
   before_update :update_section_pages_and_route 
+  after_update  :publish
   after_create  :create_section_pages_and_routes
 
   named_scope :editable_by, lambda { |user|
@@ -179,8 +180,17 @@ class Blog < ActiveRecord::Base
   def update_section_pages_and_route
     if name_changed?
       old_blog_name = name_was
-      [PageRoute, Page].each { |k| k.find_by_name("#{old_blog_name}: Post").update_attribute(:name, "#{name}: Post") }
-      [Section,   Page].each { |k| k.find_by_name(old_blog_name).update_attribute(:name, name) }
+
+      Section.find_by_name(old_blog_name).update_attribute(:name, name)
+      PageRoute.find_by_name("#{old_blog_name}: Post").update_attribute(:name, "#{name}: Post")
+      
+      page = Page.find_by_name("#{old_blog_name}: Post")
+      page.update_attribute(:name, "#{name}: Post")
+      page.publish
+      
+      page = Page.find_by_name(old_blog_name)
+      page.update_attribute(:name, name)
+      page.publish
     end
   end 
   
