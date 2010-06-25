@@ -7,6 +7,8 @@ class Blog < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
+  
+  before_update :update_section_pages_and_route
 
   named_scope :editable_by, lambda { |user|
     if user.able_to?(:administrate)
@@ -135,6 +137,23 @@ protected
     create_portlet(page, portlet_name, BlogPostPortlet)
     
     reload_routes
+  end
+  
+  # When the name of a Blog block changes, we need to change the Post page route.
+  # We also change the *names* of the section and pages that hold the blog block and 
+  # post portlet because presumably, by changing the name of the blog, the intention 
+  # was to reflect this name change in breadcrumbs and menus. 
+  # 
+  # Note that no other routes or paths are updated. This is intentional to be consistent
+  # with how BrowserCMS behaves when a Section or Page names change: paths are not
+  # updated automatically.
+  
+  def update_section_pages_and_route
+    if name_changed?
+      old_blog_name = name_was
+      [PageRoute, Page].each { |k| k.find_by_name("#{old_blog_name}: Post").update_attribute(:name, "#{name}: Post") }
+      [Section,   Page].each { |k| k.find_by_name(old_blog_name).update_attribute(:name, name) }
+    end
   end
 
   def create_route(page, name, pattern)

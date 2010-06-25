@@ -63,6 +63,9 @@ class BlogTest < ActiveSupport::TestCase
     Factory(:blog, :name => 'Test')
   end
   
+  # test "should update section and page names on name update" do
+  # end
+  
   # test "should find posts tagged with 'Ruby'" do
   #   
   # end
