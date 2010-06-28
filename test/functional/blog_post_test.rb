@@ -4,21 +4,12 @@ class BlogPostTest < ActionController::TestCase
   tests Cms::ContentController
   
   def setup
-    setup_stubs
     create_baseline_data
   end
   
-  # def teardown
-  #   destroy_baseline_data
-  # end
-  
   def test_show_post
-    get :show, :path => ["blog", "post"],
-      :year => @first_post.year,
-      :month => @first_post.month,
-      :day => @first_post.day,
-      :slug => @first_post.slug
-    #log @response.body
+    get :show, :path => ["myblog"]
+    log @response.body
     assert_response :success
     assert_select "title", @first_post.name
     assert_select ".blog_post", 1

@@ -4,19 +4,11 @@ class BlogTest < ActionController::TestCase
   tests Cms::ContentController
   
   def setup
-    # create_baseline_data
-    # `rake db:test:purge`
-    # `rake db:migrate`
     create_baseline_data
+    puts Page.count
   end
-  # 
-  # def teardown
-  #   destroy_baseline_data
-  # end
-  # 
-  def test_list_of_blog_posts
-    
-    
+
+  test "displays the list of blog posts" do
      get :show
      log @response.body
      assert_response :success

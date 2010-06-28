@@ -1,3 +1,7 @@
+Factory.define :category_type do |m|
+  m.name "Blog Post"
+end
+
 Factory.define :group do |m|
   m.sequence(:name) {|n| "TestGroup#{n}" }
   m.association :group_type

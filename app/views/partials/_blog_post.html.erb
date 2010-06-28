@@ -52,7 +52,6 @@
 <div id="blog_post_<%= blog_post.id %>" class="blog_post clear">
   <% if blog_post.attachment %>
     <div class="image">
-      <%# image_tag_with_max_size blog_post.attachment.file_path, blog_post.attachment.full_file_location, :width => max_width %>
       <%= image_tag blog_post.attachment.file_path %>
     </div>
   <% end %>
