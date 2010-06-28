@@ -1,2 +1,7 @@
+<% content_for :html_head do  %>
+  <%= auto_discovery_link_tag :rss, blog_feeds_url(:id => @blog.id), "Blog RSS Feeds" %>
+<% end -%>
+
+
 <% page_title @page_title || @blog.name %>
 <%= render :partial => "partials/blog_post", :collection => @blog_posts %>
