@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "app/models/blog.rb",
      "app/models/blog_comment.rb",
      "app/models/blog_group_membership.rb",
+     "app/models/blog_observer.rb",
      "app/models/blog_post.rb",
      "app/portlets/blog_post_portlet.rb",
      "app/portlets/blog_posts_portlet.rb",
@@ -75,6 +76,7 @@ Gem::Specification.new do |s|
      "test/test_helper.rb",
      "test/test_logging.rb",
      "test/unit/blog_comment_test.rb",
+     "test/unit/blog_observer_test.rb",
      "test/unit/blog_post_test.rb",
      "test/unit/blog_test.rb",
      "test/unit/helpers/feeds_helper_test.rb"
