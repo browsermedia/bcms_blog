@@ -18,7 +18,6 @@ class BlogObserver < ActiveRecord::Observer
   # This structure provides sensible defaults so users can pretty much start adding
   # posts right after creating a blog without having to worry about where to put
   # their blog and portlets.
-
   def create_section_pages_and_routes
     create_blog_section
     create_blog_block_page
@@ -31,7 +30,6 @@ class BlogObserver < ActiveRecord::Observer
   # created. This section will hold two pages: one for the blog ContentBlock that
   # will render the list of posts and one for the BlogPost portlet (ie the individual
   # post view)  
-
   def create_blog_section
     @section = Section.find_by_name(@blog.name) || (
       @section = Section.create!(
@@ -51,7 +49,6 @@ class BlogObserver < ActiveRecord::Observer
   # holds the Blog ContentBlock directly, not a portlet. Together with the 5 created routes,
   # this page and its  ContentBlock handle different post listings (all posts, posts in year, 
   # month or day and posts by tag or category).
-
   def create_blog_block_page
     page = Page.find_by_name(@blog.name) || Page.create!(
       :name => @blog.name,
@@ -71,7 +68,6 @@ class BlogObserver < ActiveRecord::Observer
 
   # The second page that is created holds the BlogPostPortlet and displays the individual
   # post view, along with it's comments.
-
   def create_post_portlet_page
     page = Page.find_by_name(portlet_name = "#{@blog.name}: Post") || Page.create!(
       :name => portlet_name,
@@ -92,7 +88,6 @@ class BlogObserver < ActiveRecord::Observer
   # Note that no other routes or paths are updated. This is intentional to be consistent
   # with how BrowserCMS behaves when a Section or Page names change: paths are not
   # updated automatically.
-
   def update_section_pages_and_route(blog)
     if blog.name_changed?
       old_blog_name = blog.name_was

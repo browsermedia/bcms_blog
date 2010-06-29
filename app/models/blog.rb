@@ -91,8 +91,4 @@ class Blog < ActiveRecord::Base
   def name_for_path
     name.to_slug.gsub('-', '_')
   end
-
-  protected
-  
-
 end
