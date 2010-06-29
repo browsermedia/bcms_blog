@@ -52,6 +52,20 @@ under 'Blog Comments', these comments will appear in draft status. They can be P
 
 If the blog is set to no moderation, then comments will appear immediately. This obviously increases the likelyhood of spam, but staff can use the Content Library to delete the offending comments like any other content.
 
+## Feeds
+
+This module includes an RSS feeds route that can handle multiple blogs. To expose the RSS autodiscovery link, you can call the feeds\_link\_tag\_for helper in your template header:
+  
+    <%= feeds_link_tag_for "MyBlog" %>
+    
+Where "MyBlog" is the __name__ of the blog.
+
+If your site has multiple blogs, you need to call the helper once for every link you intend to expose:
+
+    <%= feeds_link_tag_for "MyBlog" %>
+    <%= feeds_link_tag_for "MyOtherBlog" %>
+ 
+
 ## Security
 
 This module adds some additional level of security around blogs and content that are slightly different from a vanilla BrowserCMS installation. Here's the highlights:
