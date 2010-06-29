@@ -4,7 +4,7 @@ class Cms::BlogPostsControllerTest < ActionController::TestCase
   def setup
     setup_stubs
     ContentType.create!(:name => 'BlogPost', :group_name => 'Blog')
-    login_as(create_user)
+    login_as(_create_user)
   end
 
   def test_access_denied_on_create_if_blog_not_user_editable

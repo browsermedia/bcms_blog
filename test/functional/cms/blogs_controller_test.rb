@@ -9,7 +9,7 @@ class Cms::BlogsControllerTest < ActionController::TestCase
   end
   
   test "should allow access to admin users" do
-    login_as(create_user(:admin => true))
+    login_as(_create_user(:admin => true))
     get :index
     assert_response :success
     assert assigns(:blocks)
@@ -17,7 +17,7 @@ class Cms::BlogsControllerTest < ActionController::TestCase
   end
   
   test "should not allow access to non-admin users" do
-    login_as(create_user)
+    login_as(_create_user)
     get :index
     assert_response :success
     assert_template("admin_only.html.erb")    
