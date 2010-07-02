@@ -109,7 +109,6 @@ Special thanks to some amazing folks from the BrowserCMS community for their wor
 
 ## Wishlist Features
 
-* RSS feeds - Each blog should have its own RSS feed created as part of the initial blog creation.
 * Notifications for Comments - Blogs should have an option to be notified when a new comment is created. This will allow for practical management of comments/spam.
 * Messaging for Moderated comments - If moderation is turned on, users get no feedback about the comment they just left. Ideally, they would get some sort of javascript notice that their comment is awaiting notification.
 
