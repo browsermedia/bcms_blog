@@ -4,10 +4,11 @@ require 'test_help'
 require 'factory_girl'
 require 'mocha'
 require 'test_logging'
+require 'bcms_support'
 
 class ActiveSupport::TestCase
 
-  include Bcms::TestSupport
+  include BcmsSupport::Test
   include TestLogging
 
   self.use_transactional_fixtures = true
@@ -37,7 +38,7 @@ class ActiveSupport::TestCase
     @bar_post_2 = Factory(:blog_post, :blog => @blog, :category => @general,
     :published_at => Time.utc(2009, 3, 18), :publish_on_save => true)
     
-    Page.all.each(&:publish)
+    publish_all_pages
   end
 
   def setup_blog_stubs
