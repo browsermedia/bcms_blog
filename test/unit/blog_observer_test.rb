@@ -3,7 +3,7 @@ require 'test_helper'
 class BlogObserverTest < ActiveSupport::TestCase
 
   def setup
-    setup_stubs
+    setup_blog_stubs
     [Section, PageRoute, Page].each {|klass| klass.stubs(:find_by_name)}
     BlogPostPortlet.stubs(:create!)
     @blog = Factory(:blog, :name => 'TestBlog')

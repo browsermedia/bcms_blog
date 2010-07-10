@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + "/../test_helper"
 class BlogCommentTest < ActiveSupport::TestCase
   
   def setup
-    setup_stubs
+    setup_blog_stubs
   end
   
   test "crates a valid instance" do

@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + "/../test_helper"
 class BlogTest < ActiveSupport::TestCase
   
   def setup
-    setup_stubs
+    setup_blog_stubs
     @blog = Factory(:blog, :name => 'TestBlog')
   end
 

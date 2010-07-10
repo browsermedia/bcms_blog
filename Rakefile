@@ -26,6 +26,7 @@ begin
     gemspec.files += Dir["lib/bcms_blog.rb"]
     gemspec.files += Dir["lib/bcms_blog/*"]
     gemspec.files += Dir["rails/init.rb"]
+    gemspec.add_development_dependency 'bcms_test_support'
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install jeweler"
