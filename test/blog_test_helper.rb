@@ -20,7 +20,7 @@ module BlogTestHelper
     @general = Category.create!(:name => "General", :category_type => @category_type)
 
     opts = {:blog => @blog, :publish_on_save => true}
-    @first_post = Factory(:blog_post, opts.merge(:category => @general, :published_at => Time.utc(2008, 7, 5, 6)))
+    @first_post = Factory(:blog_post, opts.merge(:category => @general, :published_at => Time.utc(2008, 7, 5, 6), :name => "The first Post"))
     @foo_post_1 = Factory(:blog_post, opts.merge(:category => @stuff,   :published_at => Time.utc(2008, 7, 5, 12), :tag_list => "foo stuff"))
     @foo_post_2 = Factory(:blog_post, opts.merge(:category => @general, :published_at => Time.utc(2008, 7, 21)))
     @bar_post_1 = Factory(:blog_post, opts.merge(:category => @stuff,   :published_at => Time.utc(2008, 9, 2),     :tag_list => "foo stuff"))

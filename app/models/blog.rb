@@ -25,8 +25,8 @@ class Blog < ActiveRecord::Base
   end
 
   def self.posts_finder(finder, options)
-    if options[:tags]
-      finder = finder.tagged_with(options[:tags])
+    if options[:tag]
+      finder = finder.tagged_with(options[:tag])
     end
     if options[:exclude_tags]
       finder = finder.not_tagged_with(options[:exclude_tags])

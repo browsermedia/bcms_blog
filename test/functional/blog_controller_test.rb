@@ -37,36 +37,27 @@ class BlogControllerTest < ActionController::TestCase
     assert_select ".blog_post", 3
   end
 
-  # test "tagging" do
-  #   get :show, :path => ['myblog'], :tag => 'foo'
-  #   assert_response :success
-  #   assert_equal 6, PageRoute.count
-  # end
-  # test "list of blog posts by tag" do
-  #   get :show, :path => ['myblog'], :tag => 'foo'
-  #   puts @response.body
-  #   assert_response :success
-  #   assert_select ".blog_post", 2
-  # end
-  # 
-  # def test_list_of_blog_posts_in_day
-  #   get :show, :path => ["myblog", "posts_in_day"],
-  #   :year => 2008, :month => 7, :day => 5
-  #   assert_response :success
-  #   assert_select ".blog_post", 2
-  # end
-  # 
-  # def test_list_of_blog_posts_in_month
-  #   get :show, :path => ["blog", "posts_in_month"],
-  #              :year => 2008, :month => 7
-  #   assert_response :success
-  #   assert_select ".blog_post", 3
-  # end
-  # 
-  # def test_list_of_blog_posts_in_year
-  #   get :show, :path => ["blog", "posts_in_year"],
-  #       :year => 2008
-  #   assert_response :success
-  #   assert_select ".blog_post", 4
-  # end
+  test "list of blog posts by tag" do
+    get :show, :path => ['myblog'], :tag => 'foo'
+    assert_response :success
+    assert_select ".blog_post", 2
+  end
+
+  test "list_of_blog_posts_in_day" do
+    get :show, :path => ["myblog"], :year => 2008, :month => 7, :day => 5
+    assert_response :success
+    assert_select ".blog_post", 2
+  end
+
+  test "list_of_blog_posts_in_month" do
+    get :show, :path => ["myblog"], :year => 2008, :month => 7
+    assert_response :success
+    assert_select ".blog_post", 3
+  end
+
+  test "list_of_blog_posts_in_year" do
+    get :show, :path => ["myblog"], :year => 2008
+    assert_response :success
+    assert_select ".blog_post", 4
+  end
 end

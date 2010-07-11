@@ -111,11 +111,12 @@ class BlogObserver < ActiveRecord::Observer
 
   def create_route(page, name, pattern)
     route = page.page_routes.build(:name => name, :pattern => pattern, :code => "")
-    route.add_condition(:method, "get")
+    route.send(:create_without_callbacks)
+    route.add_condition(:method, "get").save
     route.add_requirement(:year,  '\d{4,}') if pattern.include?(":year")
     route.add_requirement(:month, '\d{2,}') if pattern.include?(":month")
     route.add_requirement(:day,   '\d{2,}') if pattern.include?(":day")
-    route.send(:create_without_callbacks)
+    route.requirements.each(&:save)
   end
 
   def create_portlet(page, name, portlet_class)
