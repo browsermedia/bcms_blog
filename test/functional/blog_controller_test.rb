@@ -5,13 +5,8 @@ class BlogControllerTest < ActionController::TestCase
 
   def setup
     seed_bcms_data
-    # DATA CREATED ON BLOG MIGRATIONS
-    @content_type_group = ContentTypeGroup.create!(:name => "Blog")
-    CategoryType.create!(:name => "Blog Post") 
-    ContentType.create!(:name  => "Blog", :content_type_group => @content_type_group)
-    ContentType.create!(:name  => "BlogPost", :content_type_group => @content_type_group)
-    ContentType.create!(:name  => "BlogComment", :content_type_group => @content_type_group)
-    create_baseline_data
+    seed_blog_data
+    create_test_data
   end
 
   test "displays the list of blog posts" do
