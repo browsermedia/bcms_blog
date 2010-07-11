@@ -5,12 +5,12 @@ require 'mocha'
 require 'factory_girl'
 require 'bcms_support'
 require 'bcms_support/factories'
-require 'blog_helper'
+require 'blog_test_helper'
 require 'test_logging'
 
 class ActiveSupport::TestCase
   include BcmsSupport::Test
-  include BlogHelper
+  include BlogTestHelper
   include TestLogging
 
   self.use_transactional_fixtures = true

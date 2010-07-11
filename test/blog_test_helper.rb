@@ -1,4 +1,4 @@
-module BlogHelper
+module BlogTestHelper
 
   # Seeds all data created by this module's migrations
   def seed_blog_data
