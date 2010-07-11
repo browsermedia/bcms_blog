@@ -37,6 +37,11 @@ class BlogControllerTest < ActionController::TestCase
     assert_select ".blog_post", 3
   end
 
+  # test "tagging" do
+  #   get :show, :path => ['myblog'], :tag => 'foo'
+  #   assert_response :success
+  #   assert_equal 6, PageRoute.count
+  # end
   # test "list of blog posts by tag" do
   #   get :show, :path => ['myblog'], :tag => 'foo'
   #   puts @response.body

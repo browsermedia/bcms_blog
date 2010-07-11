@@ -1,34 +1,3 @@
-Factory.define :category_type do |m|
-  m.name "Blog Post"
-end
-
-Factory.define :group do |m|
-  m.sequence(:name) {|n| "TestGroup#{n}" }
-  m.association :group_type
-end
-
-Factory.define :group_type do |m|
-  m.sequence(:name) {|n| "TestGroupType#{n}" }
-end
-
-Factory.define :permission do |m|
-  m.name "edit_content"
-end
-
-Factory.define :user do |m|
-  m.first_name "Test"
-  m.last_name "User"
-  m.sequence(:login) {|n| "test_#{n}" }
-  m.email {|a| "#{a.login}@example.com" }
-  m.password "password"
-  m.password_confirmation {|a| a.password }
-end
-
-Factory.define :section do |m|
-  m.name "A Section"
-  m.path "/a-section"
-end
-
 Factory.define :blog do |m|
   m.sequence(:name) {|n| "TestBlog#{n}"}
   m.moderate_comments true

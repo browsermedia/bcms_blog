@@ -1,11 +1,12 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
-require 'factory_girl'
 require 'mocha'
-require 'test_logging'
+require 'factory_girl'
 require 'bcms_support'
+require 'bcms_support/factories'
 require 'blog_helper'
+require 'test_logging'
 
 class ActiveSupport::TestCase
   include BcmsSupport::Test
