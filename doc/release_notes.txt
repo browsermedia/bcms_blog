@@ -1,3 +1,11 @@
+v1.1.1
+
+- Blog partials and templates no longer include any css style declarations
+- Fixed browsing by tags, categories and dates
+- Fixed bug on page route conditions and requirements when creating a blog
+- Tests refactoring. Tests now depend on bcms_support gem
+
+
 v1.1.0
 
 This version introduces significant changes and improvements over version 1.0.0
@@ -35,6 +43,3 @@ Contributors:
 =============
 Tyler Rick
 Jon Leighton
-
-
-v1.0.0

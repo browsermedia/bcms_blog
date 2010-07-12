@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bcms_blog}
-  s.version = "1.1.0"
+  s.version = "1.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["BrowserMedia"]
-  s.date = %q{2010-07-02}
+  s.date = %q{2010-07-11}
   s.description = %q{The Blog Module for BrowserCMS}
   s.email = %q{github@browsermedia.com}
   s.extra_rdoc_files = [
@@ -41,8 +41,8 @@ Gem::Specification.new do |s|
      "app/views/cms/blogs/admin_only.html.erb",
      "app/views/cms/blogs/render.html.erb",
      "app/views/feeds/index.rss.builder",
+     "app/views/layouts/templates/default.html.erb",
      "app/views/partials/_blog_post.html.erb",
-     "app/views/partials/_blog_post.html.haml",
      "app/views/portlets/blog_post/_form.html.erb",
      "app/views/portlets/blog_post/render.html.erb",
      "app/views/portlets/blog_posts/_form.html.erb",
@@ -66,12 +66,12 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{The Blog Module for BrowserCMS}
   s.test_files = [
-    "test/factories.rb",
-     "test/functional/blog_post_test.rb",
-     "test/functional/blog_test.rb",
+    "test/blog_test_helper.rb",
+     "test/factories.rb",
+     "test/functional/blog_controller_test.rb",
+     "test/functional/blog_post_controller_test.rb",
      "test/functional/cms/blog_posts_controller_test.rb",
      "test/functional/cms/blogs_controller_test.rb",
-     "test/functional/feeds_controller_test.rb",
      "test/performance/browsing_test.rb",
      "test/test_helper.rb",
      "test/test_logging.rb",
@@ -87,9 +87,12 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_development_dependency(%q<bcms_support>, [">= 0"])
     else
+      s.add_dependency(%q<bcms_support>, [">= 0"])
     end
   else
+    s.add_dependency(%q<bcms_support>, [">= 0"])
   end
 end
 
