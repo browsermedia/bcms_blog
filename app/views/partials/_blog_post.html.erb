@@ -63,7 +63,7 @@
   
   <div class="body">
     <% if showing_individual_post or blog_post.summary.blank? %>
-      <%= blog_post.body %>
+      <%= blog_post.body.html_safe %>
     <% else %>
       <%= blog_post.summary %>
       <p class="read_more">

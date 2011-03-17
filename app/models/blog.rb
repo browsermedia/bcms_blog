@@ -134,7 +134,7 @@ protected
     create_route(  page, portlet_name, "/#{name_for_path}/:year/:month/:day/:slug")
     create_portlet(page, portlet_name, BlogPostPortlet)
     
-    reload_routes
+    PageRoute.reload_routes
   end
 
   def create_route(page, name, pattern)
@@ -143,7 +143,8 @@ protected
     route.add_requirement(:year,  '\d{4,}') if pattern.include?(":year")
     route.add_requirement(:month, '\d{2,}') if pattern.include?(":month")
     route.add_requirement(:day,   '\d{2,}') if pattern.include?(":day")
-    route.send(:create_without_callbacks)
+    # route.send(:create_without_callbacks)
+    route.save!
   end
 
   def create_portlet(page, name, portlet_class)
@@ -154,9 +155,5 @@ protected
       :connect_to_page_id => page.id,
       :connect_to_container => "main",
       :publish_on_save => true)
-  end
-  
-  def reload_routes
-     ActionController::Routing::Routes.load!
   end
 end
