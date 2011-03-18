@@ -1,10 +1,6 @@
 <% page_title @blog_post.name %>
 <%= render :partial => "partials/blog_post", :object => @blog_post %>
 
-<style>
-  @import url('/stylesheets/cms/form_layout.css');
-</style>
-
 <div class="blog_comment_form">
   <% form_for @blog_comment, :url => cms_handler_path(@portlet, "create_comment") do |f| %>
     <%= f.hidden_field :post_id %>
@@ -13,15 +9,15 @@
       <%= f.label :author, 'Name *' %>
       <%= f.text_field :author %>
     </div>
-    <div class="fields text_fields clear">
+    <div class="fields text_fields">
       <%= f.label :email, 'E-mail address' %>
       <%= f.text_field :email %>
     </div>
-    <div class="fields text_fields clear">
+    <div class="fields text_fields">
       <%= f.label :url, 'Web site' %>
       <%= f.text_field :url %>
     </div>
-    <div class="fields text_editor_fields clear">
+    <div class="fields text_editor_fields">
       <%= f.label :body, 'Body *' %>
       <br/>
       <%= f.text_area :body, :size => "50x5", :style => 'height: auto'  %>

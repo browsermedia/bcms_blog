@@ -3,7 +3,7 @@ require 'test_helper'
 class BlogPostTest < ActiveSupport::TestCase
   
   def setup
-    setup_stubs
+    setup_blog_stubs
     @post = Factory(:blog_post, :name => "This is the first Post")
   end
   
@@ -12,15 +12,15 @@ class BlogPostTest < ActiveSupport::TestCase
   end
   
   test "requires name" do
-    assert !Factory.build(:blog_post, :name => nil).valid?
+    assert Factory.build(:blog_post, :name => nil).invalid?
   end
   
   test "requires blog_id" do
-    assert !Factory.build(:blog_post, :blog =>  nil).valid?
+    assert Factory.build(:blog_post, :blog =>  nil).invalid?
   end
   
   test "requires author_id" do
-    assert !Factory.build(:blog_post, :author => nil).valid?
+    assert Factory.build(:blog_post, :author => nil).invalid?
   end
   
   test "should set slug" do

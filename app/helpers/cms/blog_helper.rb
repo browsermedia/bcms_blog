@@ -7,5 +7,11 @@ module Cms::BlogHelper
   def _blog_post_path(blog_post)
     send("#{blog_post.route_name}_path", blog_post.route_params)
   end
+  
+  def feeds_link_tag_for(name)
+    blog = Blog.find_by_name(name)
+    auto_discovery_link_tag(:rss, blog_feeds_url(:blog_id => blog), :title => "#{blog.name}")
+  end
+  
 end
 

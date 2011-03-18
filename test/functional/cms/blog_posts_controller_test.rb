@@ -1,27 +1,26 @@
 require 'test_helper'
 
 class Cms::BlogPostsControllerTest < ActionController::TestCase
+  
   def setup
-    setup_stubs
+    setup_blog_stubs
     ContentType.create!(:name => 'BlogPost', :group_name => 'Blog')
     login_as(create_user)
   end
 
   def test_access_denied_on_create_if_blog_not_user_editable
-    flunk
     @editable = Factory(:blog, :groups => [@group])
     @non_editable = Factory(:blog)
     post :create, :blog_post => { :blog_id => @non_editable.id }
-    assert @response.body.include?("AccessDenied")
+    assert @response.body.include?("Access Denied")
   end
   
   def test_access_denied_on_update_if_blog_not_user_editable
-    flunk
     @editable = Factory.create(:blog, :groups => [@group])
     @non_editable = Factory.create(:blog)
     @blog_post = Factory.create(:blog_post, :blog => @non_editable)
     put :update, :id => @blog_post, :blog_post => { :name => "Foo" }
-    assert @response.body.include?("AccessDenied")
+    assert @response.body.include?("Access Denied")
    end
    
    def test_no_access_if_no_editable_blogs

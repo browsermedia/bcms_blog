@@ -3,7 +3,7 @@ require 'test_helper'
 class Cms::BlogsControllerTest < ActionController::TestCase
   
   def setup
-    setup_stubs
+    setup_blog_stubs
     ContentType.create!(:name => 'Blog', :group_name => 'Blog')
     Factory(:blog)
   end

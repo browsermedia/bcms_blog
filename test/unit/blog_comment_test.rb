@@ -3,7 +3,7 @@ require 'test_helper'
 class BlogCommentTest < ActiveSupport::TestCase
   
   def setup
-    setup_stubs
+    setup_blog_stubs
   end
   
   test "crates a valid instance" do
@@ -11,15 +11,15 @@ class BlogCommentTest < ActiveSupport::TestCase
   end
   
   test "requires post" do
-    assert !Factory.build(:blog_comment, :post => nil).valid?
+    assert Factory.build(:blog_comment, :post => nil).invalid?
   end
   
   test "requires author" do
-    assert !Factory.build(:blog_comment, :author => nil).valid?
+    assert Factory.build(:blog_comment, :author => nil).invalid?
   end
   
   test "requires body" do
-    assert !Factory.build(:blog_comment, :body => nil).valid?
+    assert Factory.build(:blog_comment, :body => nil).invalid?
   end
   
   test "should not be published if Blog#moderate_comments is true" do

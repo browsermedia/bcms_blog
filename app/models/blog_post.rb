@@ -78,7 +78,7 @@ class BlogPost < ActiveRecord::Base
 
   def self.columns_for_index
     [ {:label => "Name", :method => :name, :order => "name" },
-      {:label => "Published", :method => :published_label, :order => "published" } ]
+      {:label => "Published At", :method => :published_label, :order => "published_at" } ]
   end
 
   def published_label
