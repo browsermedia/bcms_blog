@@ -32,6 +32,11 @@ The blog module installs like most other BrowserCMS modules (http://guides.brows
 	module ApplicationHelper
   		include Cms::BlogHelper
 	end
+
+### 4. Activate the observer
+	
+	in config/application.rb, add:
+	config.active_record.observers = :blog_observer
 	
 ## Creating a Blog
 
