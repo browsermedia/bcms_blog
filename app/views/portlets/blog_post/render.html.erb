@@ -4,7 +4,8 @@
 <div class="blog_comment_form">
   <% form_for @blog_comment, :url => cms_path(@portlet, "create_comment") do |f| %>
     <%= f.hidden_field :post_id %>
-    <%= f.error_messages %>
+    <%= f.cms_error_messages %>
+    <%= render :partial => 'cms/shared/exception', :object => @exception if @exception %>
     <div class="fields text_fields">
       <%= f.label :author, 'Name *' %>
       <%= f.text_field :author %>
