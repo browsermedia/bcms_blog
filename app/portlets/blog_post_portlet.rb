@@ -1,5 +1,5 @@
 class BlogPostPortlet < Portlet
-  #render_inline false
+  render_inline false
   #enable_template_editor false
 
   def render
