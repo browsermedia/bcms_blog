@@ -9,8 +9,9 @@ class BcmsBlog::InstallGenerator < Cms::ModuleInstallation
     '20090415000003_add_attachment_to_blog_posts.rb', '20100521042244_add_moderate_comments_to_blog.rb'].each do |mg|
       copy_migration_file mg
     end
-
-    def add_helpers
-      append_to_file ''
-    end
+    
+    # not sure why this is here
+    # def add_helpers
+    #   append_to_file ''
+    # end
 end
