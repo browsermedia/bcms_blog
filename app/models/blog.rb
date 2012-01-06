@@ -8,7 +8,7 @@ class Blog < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  named_scope :editable_by, lambda { |user|
+  scope :editable_by, lambda { |user|
     if user.able_to?(:administrate)
       { }
     else

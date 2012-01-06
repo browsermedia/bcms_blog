@@ -1,5 +1,8 @@
 class BlogPostsPortlet < Portlet
-  def after_initialize
+  
+  after_initialize :build_permalink_code
+  
+  def build_permalink_code
     self.render_blog_post_code ||= 'truncate(blog_post.name, 30)'
   end
 
