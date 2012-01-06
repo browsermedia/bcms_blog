@@ -8,8 +8,10 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module BcmsBlog
   class Application < Rails::Application
-  # BrowserCMS should serve static CMS assets (js, css, images) from the Gem
-config.serve_static_assets = true
+    # BrowserCMS should serve static CMS assets (js, css, images) from the Gem
+    config.serve_static_assets = true
+  
+    
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

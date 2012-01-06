@@ -16,3 +16,9 @@ Factory.define :blog_comment do |m|
   m.association :post, :factory => :blog_post
   m.association :author, :factory => :user
 end
+
+Factory.define :root_section, :class=>Section do |m|
+  m.name "My Site"
+  m.root true
+  m.path "/"
+end

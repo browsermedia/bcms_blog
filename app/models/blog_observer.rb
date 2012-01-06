@@ -5,8 +5,17 @@ class BlogObserver < ActiveRecord::Observer
     create_section_pages_and_routes
   end
   
-  def before_update(blog)
-    update_section_pages_and_route(blog)
+  def after_save(blog)
+    if blog.persisted?
+      blog.publish
+    end
+  end
+  
+  # Can't use before_update since CMS callback stack is altered from normal callbacks.
+  def before_save(blog)
+    if blog.persisted?
+      update_section_pages_and_route(blog)
+    end
   end
   
   def after_update(blog)
@@ -14,6 +23,7 @@ class BlogObserver < ActiveRecord::Observer
   end
   
   private
+  
   # A section, two pages, 6 routes and a portlet are created alongside every blog.
   # This structure provides sensible defaults so users can pretty much start adding
   # posts right after creating a blog without having to worry about where to put
@@ -37,9 +47,7 @@ class BlogObserver < ActiveRecord::Observer
         :path => "/#{@blog.name_for_path}",
         :parent_id => 1
       )
-      @section.groups << Group.find_by_code("cms-admin")
-      @section.groups << Group.find_by_code("guest")
-      @section.groups << Group.find_by_code("content-editor")
+      @section.allow_groups = :all
       @section.save!
       @section
     )
