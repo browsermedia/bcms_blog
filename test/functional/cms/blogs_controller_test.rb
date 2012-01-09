@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require 'test_helper'
 
 class Cms::BlogsControllerTest < ActionController::TestCase
   
@@ -20,6 +20,6 @@ class Cms::BlogsControllerTest < ActionController::TestCase
     login_as(create_user)
     get :index
     assert_response :success
-    assert_template("admin_only.html.erb")    
+    assert_select "p", "Sorry, this section is restricted to administrators."
   end
 end

@@ -29,13 +29,15 @@ module BlogTestHelper
     publish_all_pages
   end
 
-  def setup_blog_stubs
-    Blog.any_instance.stubs(:reload_routes)
+
+  def setup_blog_stubs()
+    PageRoute.stubs(:reload_routes)
     @section = Section.new
     Section.stubs(:create! => @section)
     @section.stubs(:groups => [], :save! => true)
     Page.stubs(:create! => Page.new)
     Page.any_instance.stubs(:create_connector)
+    PageRoute.any_instance.stubs(:save!)
   end
 
   def create_group

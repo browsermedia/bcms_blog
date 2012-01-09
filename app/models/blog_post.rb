@@ -26,13 +26,13 @@ class BlogPost < ActiveRecord::Base
   before_validation :set_slug
   validates_presence_of :name, :slug, :blog_id, :author_id
 
-  named_scope :published_between, lambda { |start, finish|
+  scope :published_between, lambda { |start, finish|
     { :conditions => [
          "blog_posts.published_at >= ? AND blog_posts.published_at < ?",
          start, finish ] }
   }
 
-  named_scope :not_tagged_with, lambda { |tag| {
+  scope :not_tagged_with, lambda { |tag| {
     :conditions => [
       "blog_posts.id not in (
         SELECT taggings.taggable_id FROM taggings

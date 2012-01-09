@@ -10,5 +10,6 @@ tmp/restart.txt
 public/cache
 .idea
 .specification
+Gemfile.lock
 *.swp
 TODO

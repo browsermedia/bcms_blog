@@ -1,5 +1,26 @@
 require 'test_helper'
 
+class BlogPersistenceTest < ActiveSupport::TestCase
+  
+  def setup
+    @root = Factory(:root_section)
+    @blog = Factory(:blog, :name => 'TestBlog')
+  end
+  
+  test "Update pages/routes when a section changes" do
+    BlogObserver.any_instance.expects(:update_section_pages_and_route).with(@blog)
+    @blog.name = "Change the Name"
+    @blog.save!        
+  end
+  
+  test "Published afters saving" do
+    BlogObserver.any_instance.expects(:update_section_pages_and_route).with(@blog)
+    @blog.name = "Change the Name"
+    @blog.save!
+    assert @blog.published?
+  end
+end
+
 class BlogObserverTest < ActiveSupport::TestCase
 
   def setup
@@ -8,7 +29,7 @@ class BlogObserverTest < ActiveSupport::TestCase
     BlogPostPortlet.stubs(:create!)
     @blog = Factory(:blog, :name => 'TestBlog')
   end
-  
+
   test "does not update section, pageroute and pages if name did not change when updated" do
     [Section, PageRoute, Page].each {|klass| klass.expects(:find_by_name).never}
     @blog.toggle!(:moderate_comments)

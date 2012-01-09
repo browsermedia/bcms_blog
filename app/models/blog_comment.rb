@@ -4,7 +4,9 @@ class BlogComment < ActiveRecord::Base
 
   validates_presence_of :post_id, :author, :body
   
-  def before_create
+  before_create :publish_if_comments_are_enabled
+  
+  def publish_if_comments_are_enabled
     self.published = true unless post.blog.moderate_comments?
   end
 

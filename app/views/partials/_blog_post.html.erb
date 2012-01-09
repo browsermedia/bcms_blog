@@ -20,7 +20,7 @@
   
   <div class="body">
     <% if showing_individual_post or blog_post.summary.blank? %>
-      <%= blog_post.body %>
+      <%= blog_post.body.html_safe %>
     <% else %>
       <%= blog_post.summary %>
       <p class="read_more">
@@ -38,7 +38,7 @@
     <% if blog_post.tags.any? %>
       Tags:
       <span class="tags">
-        <%= blog_post.tags.map{|t| link_to(h(t.name), _blog_path(blog_post.blog, 'posts_with_tag', :tag => t.name)) }.join(", ") %>
+        <%= blog_post.tags.map{|t| link_to(h(t.name), _blog_path(blog_post.blog, 'posts_with_tag', :tag => t.name)) }.join(", ").html_safe %>
       </span>
       <strong>|</strong>
     <% end %>

@@ -13,5 +13,8 @@ module Cms::BlogHelper
     auto_discovery_link_tag(:rss, blog_feeds_url(:blog_id => blog), :title => "#{blog.name}")
   end
   
+  def new_comment_path(portlet)
+    url_for(:controller=>"cms/portlet", :action=>"execute_handler", :id=>portlet.id, :handler=>"create_comment")
+  end
 end
 

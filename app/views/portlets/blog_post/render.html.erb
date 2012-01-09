@@ -1,10 +1,15 @@
+<% 
+	logger.warn "Page title is: #{page_title}"
+	page_title "SOMETHING ELSE"
+	logger.warn "Now it's #{page_title}"
+%>
 <% page_title @blog_post.name %>
 <%= render :partial => "partials/blog_post", :object => @blog_post %>
 
 <div class="blog_comment_form">
-  <% form_for @blog_comment, :url => cms_handler_path(@portlet, "create_comment") do |f| %>
+  <%= form_for @blog_comment, :url => new_comment_path(@portlet) do |f| %>
     <%= f.hidden_field :post_id %>
-    <%= f.error_messages %>
+    <%= f.cms_error_messages %>
     <div class="fields text_fields">
       <%= f.label :author, 'Name *' %>
       <%= f.text_field :author %>

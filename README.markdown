@@ -19,23 +19,14 @@ The blog module installs like most other BrowserCMS modules (http://guides.brows
     
 ## Set up your application to use the module
 
-### 1. Edit config/environment.rb 
+### 1. Install the module 
     
-    config.gem "browsercms"
-    config.gem "bcms_blog"
+    rails g cms:install bcms_blog
     
 ### 2. Run the following commands
   
-    script/generate browser_cms
     rake db:migrate
-  
-### 3. Edit config/routes.rb
-
-Make sure the routes.rb loads the blog routes.
-
-    map.routes_for_bcms_blog
-    map.routes_for_browser_cms
-
+  	
 ## Creating a Blog
 
 * To get started, go to the Content Library and choose the Blog module in the left hand menu.
