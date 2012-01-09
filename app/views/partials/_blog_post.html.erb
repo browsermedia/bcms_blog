@@ -38,7 +38,7 @@
     <% if blog_post.tags.any? %>
       Tags:
       <span class="tags">
-        <%= blog_post.tags.map{|t| link_to(h(t.name), _blog_path(blog_post.blog, 'posts_with_tag', :tag => t.name)) }.join(", ") %>
+        <%= blog_post.tags.map{|t| link_to(h(t.name), _blog_path(blog_post.blog, 'posts_with_tag', :tag => t.name)) }.join(", ").html_safe %>
       </span>
       <strong>|</strong>
     <% end %>

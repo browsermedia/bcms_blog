@@ -1,8 +1,6 @@
 require 'test_helper'
 
-class BlogControllerTest < ActionController::TestCase
-  tests Cms::ContentController
-
+class BlogControllerTest < ActionDispatch::IntegrationTest
   def setup
     seed_bcms_data
     seed_blog_data
@@ -10,7 +8,7 @@ class BlogControllerTest < ActionController::TestCase
   end
 
   test "displays the list of blog posts" do
-    get :show, :path => ['myblog']
+    get "/myblog"
 
     assert_response :success
     assert_select ".blog_post", 5
@@ -22,7 +20,6 @@ class BlogControllerTest < ActionController::TestCase
         assert_select "a", 2
       end
     end
-
     assert_select "#blog_post_#{@foo_post_1.id}" do
       assert_select "h2 a", @foo_post_1.name
       assert_select "div.body", @foo_post_1.body
@@ -32,32 +29,35 @@ class BlogControllerTest < ActionController::TestCase
   end
 
   test "list of blog posts by category" do
-    get :show, :path => ['myblog'], :category => 'General'
+    get "/myblog/category/General"
     assert_response :success
     assert_select ".blog_post", 3
   end
 
   test "list of blog posts by tag" do
-    get :show, :path => ['myblog'], :tag => 'foo'
+    get "/myblog/tag/foo"
     assert_response :success
     assert_select ".blog_post", 2
   end
 
   test "list_of_blog_posts_in_day" do
-    get :show, :path => ["myblog"], :year => 2008, :month => 7, :day => 5
+    get "/myblog/2008/07/05"
     assert_response :success
     assert_select ".blog_post", 2
   end
 
   test "list_of_blog_posts_in_month" do
-    get :show, :path => ["myblog"], :year => 2008, :month => 7
+    get '/myblog/2008/07'
     assert_response :success
     assert_select ".blog_post", 3
   end
 
   test "list_of_blog_posts_in_year" do
-    get :show, :path => ["myblog"], :year => 2008
+    get "/myblog/2008"
     assert_response :success
     assert_select ".blog_post", 4
   end
+  
+  private
+  
 end
