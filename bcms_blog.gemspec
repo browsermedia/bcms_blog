@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.files += Dir["doc/**/*"]
   s.files += Dir["db/migrate/[0-9]*.rb"].reject {|f| f =~ /_browsercms|_load_seed/ }
   s.files += Dir["lib/**/*"]
+  s.files -= Dir["app/controllers/application_controller.rb", "app/helpers/application_helper.rb"]
   s.add_dependency('browsercms', '~> 3.3.0')
 
 end

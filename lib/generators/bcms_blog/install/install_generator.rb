@@ -11,6 +11,8 @@ class BcmsBlog::InstallGenerator < Cms::ModuleInstallation
     end
 
     def add_helpers
-      append_to_file ''
+      append_to_file 'app/helpers/application_helper.rb', :after=>"module ApplicationHelper\n" do
+        "  include Cms::BlogHelper\n"
+      end
     end
 end

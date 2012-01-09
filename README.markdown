@@ -27,12 +27,6 @@ The blog module installs like most other BrowserCMS modules (http://guides.brows
   
     rake db:migrate
   	
-### 3. Modify the ApplicationHelper
-	
-	module ApplicationHelper
-  		include Cms::BlogHelper
-	end
-	
 ## Creating a Blog
 
 * To get started, go to the Content Library and choose the Blog module in the left hand menu.
