@@ -17,11 +17,7 @@ class BlogObserver < ActiveRecord::Observer
       update_section_pages_and_route(blog)
     end
   end
-  
-  def after_update(blog)
-    blog.publish
-  end
-  
+
   private
   
   # A section, two pages, 6 routes and a portlet are created alongside every blog.

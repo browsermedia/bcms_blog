@@ -1,6 +1,6 @@
 class BlogPostPortlet < Portlet
-  #render_inline false
-  #enable_template_editor false
+  
+  enable_template_editor false
 
   def render
     scope = Blog.find(self.blog_id).posts
@@ -24,6 +24,8 @@ class BlogPostPortlet < Portlet
   end
 
   def create_comment
+    work_around_cms_3_3_bug_where_current_user_is_not_correctly_set
+
     params[:blog_comment].merge! :ip => request.remote_ip
     blog_comment = BlogComment.new(params[:blog_comment])
     if blog_comment.valid? && blog_comment.save
@@ -33,6 +35,12 @@ class BlogPostPortlet < Portlet
       store_errors_in_flash(blog_comment.errors)
       url_for_failure
     end
+  end
+  
+  private
+  
+  def work_around_cms_3_3_bug_where_current_user_is_not_correctly_set
+    User.current = current_user
   end
 
 end
