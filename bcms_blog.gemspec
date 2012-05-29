@@ -1,10 +1,12 @@
+# -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
+require "bcms_blog/version"
+
 Gem::Specification.new do |s|
   s.name = %q{bcms_blog}
-  s.rubyforge_project = "bcms_blog"
-  s.version = "1.2.0"
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version
+  s.rubyforge_project = s.name
+  s.version = BcmsBlog::VERSION
   s.authors = ["BrowserMedia"]
-  s.date = %q{2010-07-11}
   s.description = %q{The Blog Module for BrowserCMS}
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -13,12 +15,15 @@ Gem::Specification.new do |s|
   s.summary = "The Blog Module for BrowserCMS"
   s.email = "github@browsermedia.com"
   s.homepage = "http://www.github.com/browsermedia/bcms_blog"
-  s.files = Dir["app/**/*"]
-  s.files += Dir["doc/**/*"]
-  s.files += Dir["db/migrate/[0-9]*.rb"].reject {|f| f =~ /_browsercms|_load_seed/ }
-  s.files += Dir["lib/**/*"]
-  s.files -= Dir["app/controllers/application_controller.rb", "app/helpers/application_helper.rb"]
-  s.add_dependency('browsercms', '~> 3.3.0')
+  
+  s.files = Dir["{app,config,db,lib}/**/*"]
+  s.files += Dir["Gemfile", "LICENSE.txt", "COPYRIGHT.txt", "GPL.txt" ]
+  
+  s.test_files += Dir["test/**/*"]
+  s.test_files -= Dir['test/dummy/**/*']
+  
+  s.add_dependency("browsercms", "< 3.6.0", ">= 3.5.0.rc4")
+ 
 
 end
 

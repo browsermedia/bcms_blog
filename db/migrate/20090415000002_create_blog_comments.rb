@@ -8,11 +8,9 @@ class CreateBlogComments < ActiveRecord::Migration
       t.string :ip
       t.text :body
     end
-    ContentType.create!(:name => "BlogComment", :group_name => "Blog")    
   end
 
   def self.down
-    ContentType.destroy_all(:name => 'BlogComment')
     drop_table :blog_comment_versions
     drop_table :blog_comments
   end

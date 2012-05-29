@@ -1,11 +1,11 @@
 require 'pp'
 
-Page # trigger auto-loading
+Cms::Page # trigger auto-loading
 # At the time of this writing, these associations are missing :dependent => :destroy
-class Page
+class Cms::Page
   has_many :page_routes, :dependent => :destroy
 end
-class PageRoute
+class Cms::PageRoute
   has_many :requirements, :class_name => "PageRouteRequirement", :dependent => :destroy
   has_many :conditions,   :class_name => "PageRouteCondition",   :dependent => :destroy
 end
@@ -23,7 +23,6 @@ class CreateBlogs < ActiveRecord::Migration
       t.integer :group_id
     end
     
-    ContentType.create!(:name => "Blog", :group_name => "Blog")
   end
 
   def self.down
@@ -34,8 +33,8 @@ class CreateBlogs < ActiveRecord::Migration
     #Blog.all.map(&:connected_pages).flatten.map(&:page_routes).flatten.each(&:destroy)
     pp Blog.all.map(&:connected_pages).flatten.each(&:destroy)
 
-    ContentType.destroy_all(:name => "Blog")
-    Connector.destroy_all(:connectable_type => "Blog")
+    Cms::ContentType.destroy_all(:name => "Blog")
+    Cms::Connector.destroy_all(:connectable_type => "Blog")
 
     drop_table :blog_versions
     drop_table :blogs

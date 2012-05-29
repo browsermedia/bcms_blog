@@ -1,0 +1,28 @@
+<%= f.cms_text_field :name %>
+<%= f.cms_check_box :moderate_comments %>
+
+<div class="checkbox_group fields" style="float: left; width: 100%">
+  <label>Permissions</label>
+  <%= hidden_field_tag "blog[group_ids][]", "", :id => nil %>
+  <div class="checkboxes">
+    <% for group in Cms::Group.cms_access.all(:order => "groups.name") %>
+    <div class="checkbox_fields">
+        <%= check_box_tag "blog[group_ids][]", group.id,
+            @block.groups.include?(group), :class => "cms_group_ids", :id => "cms_group_ids_#{group.id}", :tabindex => next_tabindex %>
+        <label for="cms_group_ids_<%= group.id %>"><%= group.name %></label>
+    </div>
+    <% end %>
+    <div class="instructions">Which &ldquo;CMS&rdquo; groups can edit and publish the blog?</div>
+    <div class="check_uncheck">
+      <%= link_to_check_all 'input.cms_group_ids' %>, 
+      <%= link_to_uncheck_all 'input.cms_group_ids' %>
+    </div>
+  </div>
+</div>
+<br clear="all" />
+
+<%= f.cms_text_area :template, :default_value => BcmsBlog::Blog.default_template %>
+
+<div class="instructions" style="float:none">
+  Saving your blog might take a couple of seconds while everything is set up.
+</div>  

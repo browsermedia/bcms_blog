@@ -11,14 +11,10 @@ class CreateBlogPosts < ActiveRecord::Migration
       t.integer :comments_count
       t.datetime :published_at
     end
-    CategoryType.create!(:name => "Blog Post")
-    ContentType.create!(:name => "BlogPost", :group_name => "Blog")
+
   end
 
   def self.down
-    ContentType.destroy_all(:name => 'BlogPost')
-    CategoryType.destroy_all(:name => "Blog Post")
-
     drop_table :blog_post_versions
     drop_table :blog_posts
   end

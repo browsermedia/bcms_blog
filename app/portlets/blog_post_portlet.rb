@@ -1,9 +1,9 @@
-class BlogPostPortlet < Portlet
+class BlogPostPortlet < Cms::Portlet
   
   enable_template_editor false
 
   def render
-    scope = Blog.find(self.blog_id).posts
+    scope = BcmsBlog::Blog.find(self.blog_id).posts
     if params[:blog_post_id]
       @blog_post = scope.find(params[:blog_post_id])
     elsif params[:slug]
@@ -13,7 +13,7 @@ class BlogPostPortlet < Portlet
       end
       @blog_post = scope.find_by_slug!(params[:slug])
     else
-      raise BlogPost::INCORRECT_PARAMETERS
+      raise BcmsBlog::BlogPost::INCORRECT_PARAMETERS
     end
 
     make_page_title_use_blog_post_name(@blog_post)
@@ -29,7 +29,7 @@ class BlogPostPortlet < Portlet
     work_around_cms_3_3_bug_where_current_user_is_not_correctly_set
 
     params[:blog_comment].merge! :ip => request.remote_ip
-    blog_comment = BlogComment.new(params[:blog_comment])
+    blog_comment = BcmsBlog::BlogComment.new(params[:blog_comment])
     if blog_comment.valid? && blog_comment.save
       url_for_success
     else
@@ -42,10 +42,10 @@ class BlogPostPortlet < Portlet
   private
   
   def work_around_cms_3_3_bug_where_current_user_is_not_correctly_set
-    User.current = current_user
+    Cms::User.current = current_user
   end
   
-  # This is a work around for a bug in bcms 3.3 where the Cms::PageHeler#page_title doesnt
+  # This is a work around for a bug in bcms 3.3 where the Cms::PageHelper#page_title doesnt
   #   share state between the portlet view and the page view.
   #   When the portlet view (app/views/portlets/blog_post/render) calls 'page_title @post.name' 
   #   that instance variable isn't shared back to the page template. 

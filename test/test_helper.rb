@@ -1,18 +1,15 @@
+# Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
-ENV["BACKTRACE"] = 'YES PLEASE'
 
-require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
+require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+require "rails/test_help"
 
+Rails.backtrace_cleaner.remove_silencers!
 
-require 'bcms_support'
-require 'bcms_support/factories'
-require 'blog_test_helper'
+# Load support files
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
-class ActiveSupport::TestCase
-  include BcmsSupport::Test
-  include BlogTestHelper
-
-  self.use_transactional_fixtures = true
-  self.use_instantiated_fixtures  = false
+# Load fixtures from the engine
+if ActiveSupport::TestCase.method_defined?(:fixture_path=)
+  ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 end

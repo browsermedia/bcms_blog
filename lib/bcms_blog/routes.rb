@@ -1,10 +1,8 @@
 module Cms::Routes
-  def routes_for_bcms_blog
+  def mount_bcms_blog
+    mount BcmsBlog::Engine => "/bcms_blog"
     match '/blog/feeds', :to=>"feeds#index", :defaults=>{:format => "rss"}, :as=>'blog_feeds'
-    namespace(:cms) do     
-      content_blocks :blogs
-      content_blocks :blog_posts
-      content_blocks :blog_comments
-    end
   end
+  
+  alias :routes_for_bcms_blog :mount_bcms_blog
 end

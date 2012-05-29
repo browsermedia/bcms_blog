@@ -24,12 +24,12 @@
 
 require 'pp'
 
-Page # trigger auto-loading
+Cms::Page # trigger auto-loading
 # At the time of this writing, these associations are missing :dependent => :destroy
-class Page
+class Cms::Page
   has_many :page_routes, :dependent => :destroy
 end
-class PageRoute
+class Cms::PageRoute
   has_many :requirements, :class_name => "PageRouteRequirement", :dependent => :destroy
   has_many :conditions,   :class_name => "PageRouteCondition",   :dependent => :destroy
 end
@@ -46,7 +46,7 @@ class MigrateTo20100427 < ActiveRecord::Migration
   def self.up
     drop_table :blog_group_membership_versions
 
-    PageRouteOption.all.each {|a| a.destroy unless a.page_route }
+    Cms::PageRouteOption.all.each {|a| a.destroy unless a.page_route }
 
     puts "Destroying portlets, pages, page_routes left over from old version of bcms_blog..."
     puts "(*Not* destroying any existing Blogs, pages on which Blogs are connected, or BlogPosts)"

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BlogControllerTest < ActionDispatch::IntegrationTest
+class BlogControllerTest < ActionController::IntegrationTest
   def setup
     seed_bcms_data
     seed_blog_data

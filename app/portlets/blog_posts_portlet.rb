@@ -1,4 +1,4 @@
-class BlogPostsPortlet < Portlet
+class BlogPostsPortlet < Cms::Portlet
   
   after_initialize :build_permalink_code
   
@@ -22,9 +22,9 @@ class BlogPostsPortlet < Portlet
     Rails.logger.debug "... BlogPostsPortlet#render(options=#{@options.inspect} #{@options.class})"
 
     if @options[:blog_id]
-      finder = Blog.find(@options[:blog_id]).posts
+      finder = BcmsBlog::Blog.find(@options[:blog_id]).posts
     elsif @options[:blog_name]
-      finder = Blog.find_by_name(@options[:blog_name]).posts
+      finder = BcmsBlog::Blog.find_by_name(@options[:blog_name]).posts
     else
       finder = BlogPost
     end
@@ -35,7 +35,7 @@ class BlogPostsPortlet < Portlet
     end
 
     finder = finder.published
-    finder = Blog.posts_finder(finder, @options)
+    finder = BcmsBlog::Blog.posts_finder(finder, @options)
 
     @blog_posts = finder.all(
       :limit => @options[:limit] || 25,
