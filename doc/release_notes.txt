@@ -1,4 +1,11 @@
+v1.3.0
+======
+
+- Update to be compatible with CMS 3.5.x/Rails 3.2.x
+
 v1.2.0
+======
+
 - Upgrade to be compatible with BrowserCMS 3.3 (aka Rails 3)
 
 v1.1.1
