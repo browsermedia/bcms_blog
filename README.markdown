@@ -15,18 +15,21 @@ A simple blog module that lets users create multiple blogs.
 
 The blog module installs like most other BrowserCMS modules (http://guides.browsercms.org/installing_modules.html)
 
-    gem install bcms_blog
+    $ gem install bcms_blog
     
 ## Set up your application to use the module
 
 ### 1. Install the module 
     
-    rails g cms:install bcms_blog
+    $ rails g cms:install bcms_blog
     
 ### 2. Run the following commands
   
-    rake db:migrate
-  	
+    $ rake db:migrate
+  	$ rake db:seed
+
+For projects with existing databases, you may need to comment out other lines in db/seeds.rb so only the blog seed data runs.
+
 ## Creating a Blog
 
 * To get started, go to the Content Library and choose the Blog module in the left hand menu.

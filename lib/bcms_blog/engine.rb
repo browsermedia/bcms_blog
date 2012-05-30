@@ -1,5 +1,4 @@
 require 'browsercms'
-require 'bcms_blog/route_extensions'
 
 module BcmsBlog
   class Engine < Rails::Engine
