@@ -105,6 +105,4 @@ Special thanks to some amazing folks from the BrowserCMS community for their wor
 
 ## 3.5.x Todo 
 
-* Need to verify RSS Feeds work
-* Verify we can edit/add comments through the admin
 * Test and release

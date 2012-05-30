@@ -11,7 +11,7 @@ module BcmsBlog
   
     def feeds_link_tag_for(name)
       blog = Blog.find_by_name(name)
-      auto_discovery_link_tag(:rss, blog_feeds_url(:blog_id => blog), :title => "#{blog.name}")
+      auto_discovery_link_tag(:rss, main_app.blog_feeds_url(:blog_id => blog), :title => "#{blog.name}")
     end
   
     def new_comment_params(portlet)
