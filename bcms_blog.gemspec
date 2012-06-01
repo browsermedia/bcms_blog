@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.test_files += Dir["test/**/*"]
   s.test_files -= Dir['test/dummy/**/*']
   
-  s.add_dependency("browsercms", "< 3.6.0", ">= 3.5.0.rc4")
+  s.add_dependency("browsercms", "< 3.6.0", ">= 3.5.0")
  
 
 end

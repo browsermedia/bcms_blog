@@ -1,3 +1,9 @@
+v1.3.1
+======
+
+* Fix bug with PostsPortlet where it was throwing an error when rendering
+* Fix broken integration tests
+
 v1.3.0
 ======
 

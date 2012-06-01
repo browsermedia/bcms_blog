@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    bcms_blog (1.3.0)
-      browsercms (>= 3.5.0.rc4, < 3.6.0)
+    bcms_blog (1.3.1)
+      browsercms (>= 3.5.0, < 3.6.0)
 
 GEM
   remote: http://rubygems.org/
@@ -37,7 +37,7 @@ GEM
     ancestry (1.2.5)
       activerecord (>= 2.2.2)
     arel (3.0.2)
-    browsercms (3.5.0.rc4)
+    browsercms (3.5.0)
       ancestry (~> 1.2.4)
       ckeditor_rails (~> 3.6.2.2)
       jquery-rails (~> 2.0)
@@ -129,4 +129,5 @@ DEPENDENCIES
   bcms_blog!
   factory_girl_rails
   mocha
+  rails (= 3.2.3)
   sqlite3

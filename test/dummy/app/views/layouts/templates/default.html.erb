@@ -4,7 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title><%= page_title %></title>
     <%= yield :html_head %>
+<% # Need this so integration tests don't break
+ if BcmsBlog::Blog.find_by_name("Patricks Blog") %>
 	<%= feeds_link_tag_for "Patricks Blog" %>
+<% end	%>
 	
   </head>
   <body style="margin: 0; padding: 0; text-align: center;">
