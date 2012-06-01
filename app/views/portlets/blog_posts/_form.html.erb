@@ -1,6 +1,6 @@
-<%= f.cms_text_field :name, :label => 'Portlet Name', :instructions => 'Since we may have many Articles portlets, each with different parameters, give each portlet a descriptive name.' %>
+<%= f.cms_text_field :name, :label => 'Portlet Name', :instructions => 'Give each portlet a descriptive name (ideally, what sorts of posts are being found).' %>
 
-<%= f.cms_drop_down :blog_id, Bcms::Blog.all.map{|b| [b.name, b.id.to_s]}, :include_blank => true, :label => "Show posts from", :instructions => 'Leave blank to include posts from all blogs' %>
+<%= f.cms_drop_down :blog_id, BcmsBlog::Blog.all.map{|b| [b.name, b.id.to_s]}, :include_blank => true, :label => "Show posts from", :instructions => 'Leave blank to include posts from all blogs' %>
 <%# f.cms_drop_down :show_posts_as, [['First post as full post, the rest as Summary + Read More link', 'first_full_post_others_summary'], ['Summary + Read More link', 'summary'], ['Full post', 'full_post'], ['Title (links to post)', 'link']] %>
 <%= f.cms_drop_down :show_posts_as, [['Title (links to post)', 'link'], ['Post', 'post']] %>
 <%= f.cms_check_box :show_full_posts %>
@@ -8,6 +8,6 @@
 <%= f.cms_tag_list :label => "Only posts with tags", :instructions => 'Separate tags with spaces' %>
 <%= f.cms_text_field :exclude_tags, :label => 'Exclude posts with tags' %>
 <%= f.cms_text_field :limit, :label => 'Limit' %>
-<%= f.cms_text_area :render_blog_post_code, :label => 'Code to turn blog_post into link text' %>
+<%= f.cms_text_area :render_blog_post_code, :label => 'Code to turn blog_post into link text', :instructions=>"Default: Truncates name to 30 characters" %>
 
 <%= f.cms_template_editor :template %>

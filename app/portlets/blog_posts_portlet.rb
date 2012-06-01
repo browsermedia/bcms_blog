@@ -3,7 +3,7 @@ class BlogPostsPortlet < Cms::Portlet
   after_initialize :build_permalink_code
   
   def build_permalink_code
-    self.render_blog_post_code ||= 'truncate(blog_post.name, 30)'
+    self.render_blog_post_code
   end
 
   # Mark this as 'true' to allow the portlet's template to be editable via the CMS admin UI.
@@ -26,7 +26,7 @@ class BlogPostsPortlet < Cms::Portlet
     elsif @options[:blog_name]
       finder = BcmsBlog::Blog.find_by_name(@options[:blog_name]).posts
     else
-      finder = BlogPost
+      finder = BcmsBlog::BlogPost
     end
 
     if @options[:tags].is_a?(Array) && @options[:tags].size > 1

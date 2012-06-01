@@ -1,0 +1,12 @@
+<% if @portlet.show_posts_as == 'post'%>
+<%= render :partial => '/partials/blog_post', :collection => @blog_posts, :locals => {:show_full_posts => @options[:show_full_posts]} %>
+<% elsif @portlet.show_posts_as == 'link' %>
+  <ul id="blog_posts">
+	<% @blog_posts.each do |blog_post| %>
+      <% text = @portlet.render_blog_post_code.present? ? eval(@portlet.render_blog_post_code) : text = truncate(blog_post.name, :length=>30) %>
+      <li><%= link_to text, _blog_post_path(blog_post) %></li>
+    <% end %>
+  </ul>
+<% else %>- else
+  Unrecognized option '<%= @portlet.show_posts_as %>' for @portlet.show_posts_as
+<% end %>
