@@ -5,7 +5,7 @@
   <label>Permissions</label>
   <%= hidden_field_tag "blog[group_ids][]", "", :id => nil %>
   <div class="checkboxes">
-    <% for group in Cms::Group.cms_access.all(:order => :name) %>
+    <% for group in Cms::Group.cms_access.all(:order => 'cms_groups.name') %>
     <div class="checkbox_fields">
         <%= check_box_tag "blog[group_ids][]", group.id,
             @block.groups.include?(group), :class => "cms_group_ids", :id => "cms_group_ids_#{group.id}", :tabindex => next_tabindex %>
