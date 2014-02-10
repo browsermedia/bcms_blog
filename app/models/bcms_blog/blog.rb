@@ -59,7 +59,11 @@ module BcmsBlog
         finder = posts.published_between(@date, @date + 1.year)
       end
 
-      @blog_posts = finder.all(:limit => 25, :order => "published_at desc")
+      @blog_posts = finder.where(:published => true)
+                          .where('published_at <= ?', DateTime.now)
+                          .order('published_at DESC')
+                          .limit(25)
+                          
       raise ActiveRecord::RecordNotFound.new("No posts found") if @blog_posts.empty?
 
       if params[:category]
